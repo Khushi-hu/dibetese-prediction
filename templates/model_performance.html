@@ -5,185 +5,317 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <title>Model Performance</title>
+    <title>
+        Model Performance
+    </title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 
+
 <body>
 
-    <!-- Navigation -->
 
-    <nav class="navbar">
+<nav class="navbar">
 
-        <div class="logo">
-            Diabetes Prediction
+    <div class="logo">
+        Diabetes Prediction
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/#prediction">
+            Predict
+        </a>
+
+        <a href="/about">
+            About
+        </a>
+
+        <a href="/performance">
+            Performance
+        </a>
+
+        <a href="/history">
+            History
+        </a>
+
+    </div>
+
+</nav>
+
+
+<section class="about-section">
+
+
+    <div class="container">
+
+
+        <p class="small-title">
+            MACHINE LEARNING EVALUATION
+        </p>
+
+
+        <h1 class="page-title">
+            Model Performance
+        </h1>
+
+
+        {% if error %}
+
+
+        <div class="error-box">
+
+            <h2>
+                Unable to calculate performance
+            </h2>
+
+            <p>
+                {{ error }}
+            </p>
+
         </div>
 
-        <div class="nav-links">
 
-            <a href="/">Home</a>
+        {% else %}
 
-            <a href="/#prediction">Predict</a>
 
-            <a href="/about">About</a>
+        <p class="performance-intro">
 
-            <a href="/performance">Performance</a>
+            Performance of the trained classification
+            model on the test dataset.
+
+        </p>
+
+
+        <!-- =================================================
+             METRICS
+        ================================================== -->
+
+        <div class="metrics-grid">
+
+
+            <div class="metric-card">
+
+                <h3>
+                    Accuracy
+                </h3>
+
+                <div class="metric-value">
+
+                    {{ accuracy }}%
+
+                </div>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <h3>
+                    Precision
+                </h3>
+
+                <div class="metric-value">
+
+                    {{ precision }}%
+
+                </div>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <h3>
+                    Recall
+                </h3>
+
+                <div class="metric-value">
+
+                    {{ recall }}%
+
+                </div>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <h3>
+                    F1 Score
+                </h3>
+
+                <div class="metric-value">
+
+                    {{ f1 }}%
+
+                </div>
+
+            </div>
+
 
         </div>
 
-    </nav>
+
+        <!-- =================================================
+             MODEL INFO
+        ================================================== -->
+
+        <div class="performance-card">
 
 
-    <!-- Performance -->
+            <h2>
+                Model Information
+            </h2>
 
-    <section class="about-section">
 
-        <div class="container">
+            <p>
 
-            <h1 class="page-title">
-                Model Performance
-            </h1>
+                <strong>
+                    Model:
+                </strong>
 
-            <p class="performance-intro">
-                The machine-learning model is evaluated using
-                standard classification metrics.
+                {{ model_name }}
+
             </p>
 
 
-            <!-- Metrics -->
+            <p>
 
-            <div class="metrics-grid">
+                <strong>
+                    Task:
+                </strong>
 
-                <div class="metric-card">
+                Binary Classification
 
-                    <h3>Accuracy</h3>
+            </p>
 
-                    <div class="metric-value">
-                        {{ accuracy }}%
-                    </div>
+
+            <p>
+
+                <strong>
+                    Test Size:
+                </strong>
+
+                20%
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Evaluation Metrics:
+                </strong>
+
+                Accuracy, Precision, Recall and F1 Score
+
+            </p>
+
+
+        </div>
+
+
+        <!-- =================================================
+             CONFUSION MATRIX
+        ================================================== -->
+
+        <div class="performance-card">
+
+
+            <h2>
+                Confusion Matrix
+            </h2>
+
+
+            <div class="confusion-matrix">
+
+
+                <div class="matrix-cell">
+
+                    <span>
+                        True Negative
+                    </span>
+
+                    <strong>
+                        {{ tn }}
+                    </strong>
+
+                </div>
+
+
+                <div class="matrix-cell">
+
+                    <span>
+                        False Positive
+                    </span>
+
+                    <strong>
+                        {{ fp }}
+                    </strong>
 
                 </div>
 
 
-                <div class="metric-card">
+                <div class="matrix-cell">
 
-                    <h3>Precision</h3>
+                    <span>
+                        False Negative
+                    </span>
 
-                    <div class="metric-value">
-                        {{ precision }}%
-                    </div>
-
-                </div>
-
-
-                <div class="metric-card">
-
-                    <h3>Recall</h3>
-
-                    <div class="metric-value">
-                        {{ recall }}%
-                    </div>
+                    <strong>
+                        {{ fn }}
+                    </strong>
 
                 </div>
 
 
-                <div class="metric-card">
+                <div class="matrix-cell">
 
-                    <h3>F1 Score</h3>
+                    <span>
+                        True Positive
+                    </span>
 
-                    <div class="metric-value">
-                        {{ f1 }}%
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- Model Information -->
-
-            <div class="performance-card">
-
-                <h2>
-                    Model Information
-                </h2>
-
-                <p>
-                    <strong>Model:</strong>
-                    {{ model_name }}
-                </p>
-
-                <p>
-                    <strong>Evaluation:</strong>
-                    Test Dataset
-                </p>
-
-                <p>
-                    <strong>Task:</strong>
-                    Binary Classification
-                </p>
-
-            </div>
-
-
-            <!-- Confusion Matrix -->
-
-            <div class="performance-card">
-
-                <h2>
-                    Confusion Matrix
-                </h2>
-
-                <div class="confusion-matrix">
-
-                    <div class="matrix-cell">
-                        <span>TN</span>
-                        <strong>{{ tn }}</strong>
-                    </div>
-
-                    <div class="matrix-cell">
-                        <span>FP</span>
-                        <strong>{{ fp }}</strong>
-                    </div>
-
-                    <div class="matrix-cell">
-                        <span>FN</span>
-                        <strong>{{ fn }}</strong>
-                    </div>
-
-                    <div class="matrix-cell">
-                        <span>TP</span>
-                        <strong>{{ tp }}</strong>
-                    </div>
+                    <strong>
+                        {{ tp }}
+                    </strong>
 
                 </div>
+
 
             </div>
 
 
         </div>
 
-    </section>
+
+        {% endif %}
 
 
-    <!-- Footer -->
+    </div>
 
-    <footer>
+</section>
 
-        <p>
-            © 2026 Diabetes Prediction System
-        </p>
 
-        <p>
-            Machine Learning Mini Project
-        </p>
+<footer>
 
-    </footer>
+    <p>
+        © 2026 Diabetes Prediction System
+    </p>
+
+</footer>
+
 
 </body>
 

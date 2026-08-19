@@ -9,13 +9,14 @@
           content="width=device-width, initial-scale=1.0">
 
     <title>
-        About - Diabetes Prediction System
+        About Project
     </title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
+
 
 <body>
 
@@ -25,6 +26,7 @@
     <div class="logo">
         Diabetes Prediction
     </div>
+
 
     <div class="nav-links">
 
@@ -44,22 +46,33 @@
             Performance
         </a>
 
+        <a href="/history">
+            History
+        </a>
+
     </div>
 
 </nav>
 
 
-<section class="hero">
+<section class="hero about-hero">
 
     <div class="hero-content">
 
+        <p class="small-title">
+            ABOUT THE PROJECT
+        </p>
+
         <h1>
-            About the Project
+            Diabetes Prediction System
         </h1>
 
         <p>
-            Understanding diabetes risk through
-            machine learning.
+
+            A machine-learning project demonstrating
+            the integration of predictive analytics
+            with a Flask web application.
+
         </p>
 
     </div>
@@ -69,42 +82,45 @@
 
 <section class="about-section">
 
+
     <div class="container">
+
 
         <h2>
             Project Overview
         </h2>
 
+
         <p>
 
             The Diabetes Prediction System is a
             machine-learning based web application
-            designed to estimate diabetes risk using
-            selected health and demographic parameters.
+            designed to estimate diabetes risk from
+            selected health parameters.
 
         </p>
 
+
         <p>
 
-            The system accepts patient information
-            through a web form and processes the
-            information using a trained machine-learning
-            model.
+            The application accepts patient information,
+            applies the same preprocessing used during
+            model development, and generates a prediction
+            using the trained model.
 
         </p>
 
 
         <h2>
-            Project Objective
+            Objective
         </h2>
+
 
         <p>
 
-            The main objective of this project is to
-            demonstrate how machine learning can be
-            integrated with a web application to provide
-            automated risk prediction based on input
-            health parameters.
+            The objective of this project is to demonstrate
+            how machine learning can be integrated into a
+            practical web application.
 
         </p>
 
@@ -124,11 +140,7 @@
                 </h3>
 
                 <p>
-
-                    Used for data processing,
-                    machine learning and backend
-                    development.
-
+                    Programming and ML development.
                 </p>
 
             </div>
@@ -141,11 +153,7 @@
                 </h3>
 
                 <p>
-
-                    Used to develop the web application
-                    and connect the ML model with
-                    the interface.
-
+                    Web application backend.
                 </p>
 
             </div>
@@ -158,10 +166,7 @@
                 </h3>
 
                 <p>
-
-                    Used for preprocessing, model
-                    training and prediction.
-
+                    Machine learning and evaluation.
                 </p>
 
             </div>
@@ -170,14 +175,11 @@
             <div class="feature-card">
 
                 <h3>
-                    HTML & CSS
+                    Pandas
                 </h3>
 
                 <p>
-
-                    Used to create the user interface
-                    of the application.
-
+                    Dataset processing and analysis.
                 </p>
 
             </div>
@@ -190,10 +192,33 @@
                 </h3>
 
                 <p>
+                    Numerical computation.
+                </p>
 
-                    Used for numerical operations
-                    and preparing model input.
+            </div>
 
+
+            <div class="feature-card">
+
+                <h3>
+                    SQLite
+                </h3>
+
+                <p>
+                    Prediction history storage.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <h3>
+                    HTML & CSS
+                </h3>
+
+                <p>
+                    Frontend interface.
                 </p>
 
             </div>
@@ -206,10 +231,7 @@
                 </h3>
 
                 <p>
-
-                    Used to save and load trained
-                    machine-learning components.
-
+                    Model serialization.
                 </p>
 
             </div>
@@ -222,13 +244,10 @@
             Input Parameters
         </h2>
 
-        <p>
-
-            The system uses eight parameters:
-
-        </p>
 
         <p>
+
+            The model accepts:
 
             Pregnancies, Glucose, Blood Pressure,
             Skin Thickness, Insulin, BMI,
@@ -243,10 +262,9 @@
                 Disclaimer:
             </strong>
 
-            This application is an educational
-            machine-learning project. Its prediction
-            should not be considered a medical diagnosis
-            or a substitute for professional medical advice.
+            This project is intended for educational
+            purposes. It does not provide a medical
+            diagnosis.
 
         </div>
 
@@ -260,10 +278,6 @@
 
     <p>
         © 2026 Diabetes Prediction System
-    </p>
-
-    <p>
-        Machine Learning Mini Project
     </p>
 
 </footer>

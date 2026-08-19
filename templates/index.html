@@ -17,11 +17,12 @@
 
 </head>
 
+
 <body>
 
 
 <!-- =====================================================
-     NAVIGATION
+     NAVBAR
 ===================================================== -->
 
 <nav class="navbar">
@@ -30,13 +31,14 @@
         Diabetes Prediction
     </div>
 
+
     <div class="nav-links">
 
         <a href="/">
             Home
         </a>
 
-        <a href="/#prediction">
+        <a href="#prediction">
             Predict
         </a>
 
@@ -46,6 +48,10 @@
 
         <a href="/performance">
             Performance
+        </a>
+
+        <a href="/history">
+            History
         </a>
 
     </div>
@@ -61,15 +67,22 @@
 
     <div class="hero-content">
 
+        <p class="small-title">
+            MACHINE LEARNING PROJECT
+        </p>
+
         <h1>
             Diabetes Prediction System
         </h1>
 
         <p>
+
             A machine-learning based web application
-            that estimates diabetes risk using health
-            parameters.
+            that estimates diabetes risk from selected
+            health parameters.
+
         </p>
+
 
         <a href="#prediction"
            class="hero-button">
@@ -90,16 +103,19 @@
 <section class="prediction-section"
          id="prediction">
 
+
     <div class="container">
 
+
         <h2>
-            Enter Patient Information
+            Diabetes Risk Prediction
         </h2>
+
 
         <p class="section-description">
 
             Enter the required health parameters
-            to generate a diabetes risk prediction.
+            to generate a prediction.
 
         </p>
 
@@ -263,7 +279,7 @@
             </div>
 
 
-            <!-- BUTTON -->
+            <!-- Button -->
 
             <div class="form-button">
 
@@ -284,25 +300,17 @@
 
 
 <!-- =====================================================
-     ABOUT PREVIEW
+     FEATURES
 ===================================================== -->
 
 <section class="about-section">
 
     <div class="container">
 
+
         <h2>
-            About the Project
+            Project Features
         </h2>
-
-        <p>
-
-            The Diabetes Prediction System is a
-            machine-learning based application that
-            estimates diabetes risk using selected
-            health parameters.
-
-        </p>
 
 
         <div class="features">
@@ -316,24 +324,8 @@
 
                 <p>
 
-                    Uses a trained machine-learning model
-                    to generate predictions.
-
-                </p>
-
-            </div>
-
-
-            <div class="feature-card">
-
-                <h3>
-                    Easy to Use
-                </h3>
-
-                <p>
-
-                    Enter health information through
-                    a simple user-friendly interface.
+                    Uses a trained machine-learning
+                    classification model.
 
                 </p>
 
@@ -348,8 +340,40 @@
 
                 <p>
 
-                    Processes the entered parameters
-                    and displays the prediction quickly.
+                    Generates a prediction instantly
+                    after entering the parameters.
+
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <h3>
+                    Prediction History
+                </h3>
+
+                <p>
+
+                    Stores previous predictions using
+                    a SQLite database.
+
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <h3>
+                    Model Evaluation
+                </h3>
+
+                <p>
+
+                    Displays accuracy, precision,
+                    recall and F1-score.
 
                 </p>
 
@@ -358,17 +382,6 @@
 
         </div>
 
-
-        <div class="about-button-container">
-
-            <a href="/about"
-               class="hero-button">
-
-                Learn More
-
-            </a>
-
-        </div>
 
     </div>
 

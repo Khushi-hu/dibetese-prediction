@@ -13,18 +13,31 @@ from sklearn.metrics import (
     confusion_matrix
 )
 
+from database import (
+    create_database,
+    save_prediction,
+    get_predictions
+)
+
+
+# =========================================================
+# FLASK APPLICATION
+# =========================================================
+
 app = Flask(__name__)
 
 
 # =========================================================
-# BASE PROJECT DIRECTORY
+# BASE DIRECTORY
 # =========================================================
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(
+    os.path.abspath(__file__)
+)
 
 
 # =========================================================
-# MODEL FILES
+# MODEL PATHS
 # =========================================================
 
 MODEL_PATH = os.path.join(
@@ -47,12 +60,31 @@ IMPUTER_PATH = os.path.join(
 
 
 # =========================================================
-# LOAD MODEL
+# DATASET PATH
+# =========================================================
+
+DATASET_PATH = os.path.join(
+    BASE_DIR,
+    "diabetes.csv"
+)
+
+
+# =========================================================
+# LOAD TRAINED MODEL
 # =========================================================
 
 model = joblib.load(MODEL_PATH)
+
 scaler = joblib.load(SCALER_PATH)
+
 imputer = joblib.load(IMPUTER_PATH)
+
+
+# =========================================================
+# CREATE DATABASE
+# =========================================================
+
+create_database()
 
 
 # =========================================================
@@ -61,48 +93,14 @@ imputer = joblib.load(IMPUTER_PATH)
 
 def find_dataset():
 
-    possible_paths = [
+    # First check project folder
 
-        # Same folder as app.py
-        os.path.join(
-            BASE_DIR,
-            "diabetes.csv"
-        ),
+    if os.path.exists(DATASET_PATH):
 
-        # archive (10) folder
-        os.path.join(
-            os.path.dirname(BASE_DIR),
-            "diabetes.csv"
-        ),
-
-        # Parent folder
-        os.path.join(
-            os.path.dirname(
-                os.path.dirname(BASE_DIR)
-            ),
-            "diabetes.csv"
-        ),
-
-        # Downloads
-        os.path.join(
-            os.path.expanduser("~"),
-            "Downloads",
-            "diabetes.csv"
-        )
-
-    ]
+        return DATASET_PATH
 
 
-    # Check possible locations
-
-    for path in possible_paths:
-
-        if os.path.exists(path):
-
-            return path
-
-
-    # If not found, search project folder recursively
+    # Search inside project folder
 
     for root, dirs, files in os.walk(BASE_DIR):
 
@@ -118,7 +116,7 @@ def find_dataset():
 
 
 # =========================================================
-# HOME
+# HOME PAGE
 # =========================================================
 
 @app.route("/")
@@ -130,7 +128,7 @@ def home():
 
 
 # =========================================================
-# ABOUT
+# ABOUT PAGE
 # =========================================================
 
 @app.route("/about")
@@ -152,6 +150,10 @@ def about():
 def predict():
 
     try:
+
+        # -------------------------------------------------
+        # GET FORM VALUES
+        # -------------------------------------------------
 
         pregnancies = float(
             request.form["pregnancies"]
@@ -186,34 +188,56 @@ def predict():
         )
 
 
-        input_data = np.array([[
-            pregnancies,
-            glucose,
-            blood_pressure,
-            skin_thickness,
-            insulin,
-            bmi,
-            diabetes_pedigree,
-            age
-        ]])
+        # -------------------------------------------------
+        # CREATE INPUT ARRAY
+        # -------------------------------------------------
 
+        input_data = np.array([
+            [
+                pregnancies,
+                glucose,
+                blood_pressure,
+                skin_thickness,
+                insulin,
+                bmi,
+                diabetes_pedigree,
+                age
+            ]
+        ])
+
+
+        # -------------------------------------------------
+        # IMPUTE
+        # -------------------------------------------------
 
         input_data = imputer.transform(
             input_data
         )
 
 
+        # -------------------------------------------------
+        # SCALE
+        # -------------------------------------------------
+
         input_data = scaler.transform(
             input_data
         )
 
 
-        prediction = model.predict(
+        # -------------------------------------------------
+        # PREDICTION
+        # -------------------------------------------------
+
+        prediction_value = model.predict(
             input_data
         )[0]
 
 
-        if prediction == 1:
+        # -------------------------------------------------
+        # RESULT
+        # -------------------------------------------------
+
+        if prediction_value == 1:
 
             result = "Higher Risk of Diabetes"
 
@@ -225,6 +249,37 @@ def predict():
 
             status = "safe"
 
+
+        # -------------------------------------------------
+        # SAVE PREDICTION
+        # -------------------------------------------------
+
+        save_prediction(
+
+            pregnancies,
+
+            glucose,
+
+            blood_pressure,
+
+            skin_thickness,
+
+            insulin,
+
+            bmi,
+
+            diabetes_pedigree,
+
+            age,
+
+            result
+
+        )
+
+
+        # -------------------------------------------------
+        # DISPLAY RESULT
+        # -------------------------------------------------
 
         return render_template(
 
@@ -253,6 +308,24 @@ def predict():
 
 
 # =========================================================
+# PREDICTION HISTORY
+# =========================================================
+
+@app.route("/history")
+def history():
+
+    predictions = get_predictions()
+
+    return render_template(
+
+        "history.html",
+
+        predictions=predictions
+
+    )
+
+
+# =========================================================
 # MODEL PERFORMANCE
 # =========================================================
 
@@ -261,62 +334,94 @@ def performance():
 
     try:
 
-        # Find dataset
+        # -------------------------------------------------
+        # FIND DATASET
+        # -------------------------------------------------
 
         dataset_path = find_dataset()
 
 
-        # Dataset not found
-
         if dataset_path is None:
 
-            return f"""
-            <h2>Dataset not found</h2>
+            return render_template(
 
-            <p>
-            The application searched for
-            <b>diabetes.csv</b> inside:
-            </p>
+                "model_performance.html",
 
-            <p>
-            {BASE_DIR}
-            </p>
+                error=(
+                    "diabetes.csv was not found. "
+                    "Please place the dataset inside "
+                    "the project folder."
+                ),
 
-            <p>
-            Please locate your diabetes.csv file
-            and place it inside the project folder.
-            </p>
-            """
+                accuracy=None,
+
+                precision=None,
+
+                recall=None,
+
+                f1=None,
+
+                tn=0,
+
+                fp=0,
+
+                fn=0,
+
+                tp=0,
+
+                model_name=type(model).__name__
+
+            )
 
 
-        print(
-            "Dataset found at:",
-            dataset_path
-        )
-
-
-        # Load dataset
+        # -------------------------------------------------
+        # LOAD DATASET
+        # -------------------------------------------------
 
         df = pd.read_csv(
             dataset_path
         )
 
 
-        # Check target
+        # -------------------------------------------------
+        # CHECK TARGET
+        # -------------------------------------------------
 
         if "Outcome" not in df.columns:
 
-            return """
-            <h2>Dataset Error</h2>
+            return render_template(
 
-            <p>
-            The dataset must contain a column
-            named <b>Outcome</b>.
-            </p>
-            """
+                "model_performance.html",
+
+                error=(
+                    "The dataset does not contain "
+                    "an 'Outcome' column."
+                ),
+
+                accuracy=None,
+
+                precision=None,
+
+                recall=None,
+
+                f1=None,
+
+                tn=0,
+
+                fp=0,
+
+                fn=0,
+
+                tp=0,
+
+                model_name=type(model).__name__
+
+            )
 
 
-        # Features
+        # -------------------------------------------------
+        # FEATURES
+        # -------------------------------------------------
 
         X = df.drop(
             "Outcome",
@@ -324,12 +429,16 @@ def performance():
         )
 
 
-        # Target
+        # -------------------------------------------------
+        # TARGET
+        # -------------------------------------------------
 
         y = df["Outcome"]
 
 
-        # Train test split
+        # -------------------------------------------------
+        # TRAIN TEST SPLIT
+        # -------------------------------------------------
 
         X_train, X_test, y_train, y_test = train_test_split(
 
@@ -346,25 +455,36 @@ def performance():
         )
 
 
-        # Preprocessing
+        # -------------------------------------------------
+        # IMPUTER
+        # -------------------------------------------------
 
         X_test = imputer.transform(
             X_test
         )
+
+
+        # -------------------------------------------------
+        # SCALER
+        # -------------------------------------------------
 
         X_test = scaler.transform(
             X_test
         )
 
 
-        # Prediction
+        # -------------------------------------------------
+        # PREDICTION
+        # -------------------------------------------------
 
         y_pred = model.predict(
             X_test
         )
 
 
-        # Metrics
+        # -------------------------------------------------
+        # METRICS
+        # -------------------------------------------------
 
         accuracy = accuracy_score(
             y_test,
@@ -390,7 +510,9 @@ def performance():
         )
 
 
-        # Confusion matrix
+        # -------------------------------------------------
+        # CONFUSION MATRIX
+        # -------------------------------------------------
 
         cm = confusion_matrix(
             y_test,
@@ -404,21 +526,30 @@ def performance():
 
         else:
 
-            tn = fp = fn = tp = 0
+            tn = 0
+            fp = 0
+            fn = 0
+            tp = 0
 
 
-        # Model name
+        # -------------------------------------------------
+        # MODEL NAME
+        # -------------------------------------------------
 
         model_name = type(
             model
         ).__name__
 
 
-        # Render page
+        # -------------------------------------------------
+        # DISPLAY PERFORMANCE
+        # -------------------------------------------------
 
         return render_template(
 
             "model_performance.html",
+
+            error=None,
 
             accuracy=round(
                 accuracy * 100,
@@ -455,19 +586,35 @@ def performance():
 
     except Exception as e:
 
-        return f"""
-        <h2>
-        Error while calculating model performance
-        </h2>
+        return render_template(
 
-        <p>
-        {e}
-        </p>
-        """
+            "model_performance.html",
+
+            error=str(e),
+
+            accuracy=None,
+
+            precision=None,
+
+            recall=None,
+
+            f1=None,
+
+            tn=0,
+
+            fp=0,
+
+            fn=0,
+
+            tp=0,
+
+            model_name=type(model).__name__
+
+        )
 
 
 # =========================================================
-# RUN
+# RUN APPLICATION
 # =========================================================
 
 if __name__ == "__main__":
