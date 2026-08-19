@@ -1,192 +1,79 @@
-\# 🩺 Diabetes Prediction System
-
-
+# Diabetes Prediction System 🩺
 
 A machine learning based web application that predicts the likelihood of diabetes using patient health parameters.
 
-
-
-The project combines \*\*Machine Learning, Python, Flask, HTML, CSS and Scikit-learn\*\* to provide an interactive diabetes prediction system.
-
-
-
-\---
-
-
-
-\## 📌 Project Overview
-
-
-
-Diabetes Prediction System is a mini-project developed using Machine Learning.
-
-
-
-The user enters health-related information such as:
-
-
-
-\- Pregnancies
-
-\- Glucose Level
-
-\- Blood Pressure
-
-\- Skin Thickness
-
-\- Insulin
-
-\- BMI
-
-\- Diabetes Pedigree Function
-
-\- Age
-
-
-
-The trained machine learning model processes these parameters and provides a prediction.
-
-
-
-The application also includes a \*\*Model Performance Dashboard\*\* that displays:
-
-
-
-\- Accuracy
-
-\- Precision
-
-\- Recall
-
-\- F1 Score
-
-\- Confusion Matrix
-
-\- Machine Learning Pipeline
-
-
-
-\---
-
-
-
-\## ✨ Features
-
-
-
-\### 🔹 Diabetes Prediction
-
-
-
-Users can enter health parameters through a simple web interface and receive a model-based prediction.
-
-
-
-\### 🔹 Model Performance
-
-
-
-The application provides an interactive performance dashboard containing:
-
-
-
-\- Accuracy
-
-\- Precision
-
-\- Recall
-
-\- F1 Score
-
-\- True Positive
-
-\- True Negative
-
-\- False Positive
-
-\- False Negative
-
-
-
-\### 🔹 Responsive UI
-
-
-
-The interface is designed to work on:
-
-
-
-\- Desktop
-
-\- Laptop
-
-\- Tablet
-
-\- Mobile
-
-
-
-\### 🔹 Flask Backend
-
-
-
-Flask handles:
-
-
-
-\- Web requests
-
-\- User input
-
-\- Model prediction
-
-\- Result generation
-
-\- Performance calculation
-
-
-
-\---
-
-
-
-\## 🧠 Machine Learning Workflow
-
-
+## 📌 Project Overview
+
+The Diabetes Prediction System is a Flask-based machine learning application.
+
+Users can enter health-related information and receive a prediction from a trained machine learning model.
+
+The application also displays the model's estimated probability and model performance metrics.
+
+## 🚀 Features
+
+- Diabetes prediction using Machine Learning
+- User-friendly Flask web interface
+- Data preprocessing using imputation
+- Feature scaling
+- Prediction probability
+- Model performance dashboard
+- Accuracy, Precision, Recall and F1-Score
+- Confusion Matrix
+- Responsive UI
+- Educational medical disclaimer
+
+## 🧠 Input Parameters
+
+The system uses the following parameters:
+
+1. Pregnancies
+2. Glucose
+3. Blood Pressure
+4. Skin Thickness
+5. Insulin
+6. BMI
+7. Diabetes Pedigree Function
+8. Age
+
+## 🛠️ Technologies Used
+
+- Python
+- Flask
+- NumPy
+- Pandas
+- Scikit-learn
+- Joblib
+- HTML
+- CSS
+- Machine Learning
+
+## 📂 Project Structure
 
 ```text
-
-Dataset
-
-&#x20;  ↓
-
-Data Preprocessing
-
-&#x20;  ↓
-
-Missing Value Handling
-
-&#x20;  ↓
-
-Feature Scaling
-
-&#x20;  ↓
-
-Model Training
-
-&#x20;  ↓
-
-Model Evaluation
-
-&#x20;  ↓
-
-Model Saving
-
-&#x20;  ↓
-
-Flask Web Application
-
-&#x20;  ↓
-
-User Prediction
-
+Diabetes-Prediction-System/
+│
+├── app.py
+│
+├── dataset/
+│   └── diabetes.csv
+│
+├── model/
+│   ├── best_model.pkl
+│   ├── scaler.pkl
+│   └── imputer.pkl
+│
+├── templates/
+│   ├── index.html
+│   ├── result.html
+│   ├── performance.html
+│   ├── about.html
+│   └── history.html
+│
+├── static/
+│   └── css/
+│       └── style.css
+│
+├── requirements.txt
+├── README.md
+└── .gitignore
