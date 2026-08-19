@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Model Performance</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Diabetes Prediction
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/">Home</a>
+
+            <a href="/#prediction">Predict</a>
+
+            <a href="/about">About</a>
+
+            <a href="/performance">Performance</a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Performance -->
+
+    <section class="about-section">
+
+        <div class="container">
+
+            <h1 class="page-title">
+                Model Performance
+            </h1>
+
+            <p class="performance-intro">
+                The machine-learning model is evaluated using
+                standard classification metrics.
+            </p>
+
+
+            <!-- Metrics -->
+
+            <div class="metrics-grid">
+
+                <div class="metric-card">
+
+                    <h3>Accuracy</h3>
+
+                    <div class="metric-value">
+                        {{ accuracy }}%
+                    </div>
+
+                </div>
+
+
+                <div class="metric-card">
+
+                    <h3>Precision</h3>
+
+                    <div class="metric-value">
+                        {{ precision }}%
+                    </div>
+
+                </div>
+
+
+                <div class="metric-card">
+
+                    <h3>Recall</h3>
+
+                    <div class="metric-value">
+                        {{ recall }}%
+                    </div>
+
+                </div>
+
+
+                <div class="metric-card">
+
+                    <h3>F1 Score</h3>
+
+                    <div class="metric-value">
+                        {{ f1 }}%
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Model Information -->
+
+            <div class="performance-card">
+
+                <h2>
+                    Model Information
+                </h2>
+
+                <p>
+                    <strong>Model:</strong>
+                    {{ model_name }}
+                </p>
+
+                <p>
+                    <strong>Evaluation:</strong>
+                    Test Dataset
+                </p>
+
+                <p>
+                    <strong>Task:</strong>
+                    Binary Classification
+                </p>
+
+            </div>
+
+
+            <!-- Confusion Matrix -->
+
+            <div class="performance-card">
+
+                <h2>
+                    Confusion Matrix
+                </h2>
+
+                <div class="confusion-matrix">
+
+                    <div class="matrix-cell">
+                        <span>TN</span>
+                        <strong>{{ tn }}</strong>
+                    </div>
+
+                    <div class="matrix-cell">
+                        <span>FP</span>
+                        <strong>{{ fp }}</strong>
+                    </div>
+
+                    <div class="matrix-cell">
+                        <span>FN</span>
+                        <strong>{{ fn }}</strong>
+                    </div>
+
+                    <div class="matrix-cell">
+                        <span>TP</span>
+                        <strong>{{ tp }}</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p>
+            © 2026 Diabetes Prediction System
+        </p>
+
+        <p>
+            Machine Learning Mini Project
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

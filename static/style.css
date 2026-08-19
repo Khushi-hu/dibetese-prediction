@@ -1,0 +1,614 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+
+    background: #f4f8f7;
+
+    color: #263238;
+
+    line-height: 1.6;
+}
+
+
+/* ==========================================
+   NAVIGATION
+========================================== */
+
+.navbar {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 18px 8%;
+
+    background: white;
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+
+}
+
+
+.logo {
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    color: #167d6b;
+
+}
+
+
+.nav-links {
+
+    display: flex;
+
+    gap: 30px;
+
+}
+
+
+.nav-links a {
+
+    text-decoration: none;
+
+    color: #263238;
+
+    font-weight: 500;
+
+}
+
+
+.nav-links a:hover {
+
+    color: #167d6b;
+
+}
+
+
+/* ==========================================
+   HERO
+========================================== */
+
+.hero {
+
+    min-height: 430px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    padding: 60px 20px;
+
+    background: linear-gradient(
+        135deg,
+        #dff5ef,
+        #f4f8f7
+    );
+
+}
+
+
+.hero-content {
+
+    max-width: 750px;
+
+}
+
+
+.hero h1 {
+
+    font-size: 48px;
+
+    margin-bottom: 20px;
+
+    color: #124c43;
+
+}
+
+
+.hero p {
+
+    font-size: 19px;
+
+    margin-bottom: 30px;
+
+    color: #52605d;
+
+}
+
+
+.hero-button,
+.back-button {
+
+    display: inline-block;
+
+    padding: 13px 25px;
+
+    background: #167d6b;
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 8px;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+
+}
+
+
+.hero-button:hover,
+.back-button:hover {
+
+    transform: translateY(-2px);
+
+}
+
+
+/* ==========================================
+   CONTAINER
+========================================== */
+
+.container {
+
+    width: 90%;
+
+    max-width: 1100px;
+
+    margin: auto;
+
+}
+
+
+/* ==========================================
+   PREDICTION
+========================================== */
+
+.prediction-section {
+
+    padding: 70px 0;
+
+    background: white;
+
+}
+
+
+.prediction-section h2,
+.about-section h2 {
+
+    text-align: center;
+
+    font-size: 32px;
+
+    color: #124c43;
+
+    margin-bottom: 10px;
+
+}
+
+
+.section-description {
+
+    text-align: center;
+
+    color: #65716e;
+
+    margin-bottom: 40px;
+
+}
+
+
+/* ==========================================
+   FORM
+========================================== */
+
+.prediction-form {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 25px;
+
+    background: #f7faf9;
+
+    padding: 40px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 5px 25px rgba(0, 0, 0, 0.07);
+
+}
+
+
+.form-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.form-group label {
+
+    margin-bottom: 8px;
+
+    font-weight: bold;
+
+    color: #374744;
+
+}
+
+
+.form-group input {
+
+    padding: 13px;
+
+    border: 1px solid #ccd8d5;
+
+    border-radius: 7px;
+
+    font-size: 15px;
+
+    outline: none;
+
+}
+
+
+.form-group input:focus {
+
+    border-color: #167d6b;
+
+}
+
+
+.form-button {
+
+    grid-column: 1 / -1;
+
+    text-align: center;
+
+    margin-top: 10px;
+
+}
+
+
+.form-button button {
+
+    padding: 15px 35px;
+
+    background: #167d6b;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+}
+
+
+.form-button button:hover {
+
+    transform: translateY(-2px);
+
+    background: #126a5b;
+
+}
+
+
+/* ==========================================
+   ABOUT
+========================================== */
+
+.about-section {
+
+    padding: 70px 0;
+
+}
+
+
+.about-section > .container > p {
+
+    max-width: 800px;
+
+    margin: 20px auto 40px;
+
+    text-align: center;
+
+    color: #596764;
+
+}
+
+
+.features {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 25px;
+
+    margin-top: 30px;
+
+    margin-bottom: 50px;
+
+}
+
+
+.feature-card {
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+    box-shadow:
+        0 4px 18px rgba(0, 0, 0, 0.07);
+
+}
+
+
+.feature-card h3 {
+
+    color: #167d6b;
+
+    margin-bottom: 12px;
+
+}
+
+
+.about-button-container {
+
+    text-align: center;
+
+    margin-top: 20px;
+
+}
+
+
+/* ==========================================
+   RESULT
+========================================== */
+
+.result-section {
+
+    min-height: calc(100vh - 80px);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 50px 20px;
+
+}
+
+
+.result-card {
+
+    max-width: 650px;
+
+    width: 100%;
+
+    background: white;
+
+    padding: 50px;
+
+    border-radius: 18px;
+
+    text-align: center;
+
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.08);
+
+}
+
+
+.result-card h1 {
+
+    color: #124c43;
+
+    margin-bottom: 25px;
+
+}
+
+
+.result-icon {
+
+    width: 70px;
+
+    height: 70px;
+
+    margin: 0 auto 20px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background: #e4f5f0;
+
+    color: #167d6b;
+
+    font-size: 35px;
+
+    font-weight: bold;
+
+}
+
+
+.safe-result {
+
+    color: #167d6b;
+
+    margin-bottom: 15px;
+
+}
+
+
+.risk-result {
+
+    color: #b35a00;
+
+    margin-bottom: 15px;
+
+}
+
+
+.result-card p {
+
+    color: #596764;
+
+    margin-bottom: 20px;
+
+}
+
+
+.disclaimer {
+
+    margin: 25px 0;
+
+    padding: 18px;
+
+    background: #fff7e8;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    color: #6d5a37;
+
+}
+
+
+.error-message {
+
+    color: #b3261e !important;
+
+}
+
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+footer {
+
+    text-align: center;
+
+    padding: 25px;
+
+    background: #124c43;
+
+    color: white;
+
+    font-size: 14px;
+
+}
+
+
+/* ==========================================
+   RESPONSIVE DESIGN
+========================================== */
+
+@media (max-width: 768px) {
+
+    .navbar {
+
+        flex-direction: column;
+
+        gap: 15px;
+
+    }
+
+
+    .hero h1 {
+
+        font-size: 36px;
+
+    }
+
+
+    .prediction-form {
+
+        grid-template-columns: 1fr;
+
+        padding: 25px;
+
+    }
+
+
+    .features {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .nav-links {
+
+        gap: 15px;
+
+        font-size: 14px;
+
+    }
+
+
+    .hero h1 {
+
+        font-size: 30px;
+
+    }
+
+
+    .result-card {
+
+        padding: 30px 20px;
+
+    }
+
+}
