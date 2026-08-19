@@ -8,39 +8,32 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>
-        Prediction Result
-    </title>
+    <title>Prediction Result | DiabetesAI</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 
-
 <body>
-
 
 <nav class="navbar">
 
-    <div class="logo">
-        Diabetes Prediction
-    </div>
+    <a href="/" class="brand">
 
+        <div class="brand-icon">+</div>
+
+        <div>
+            <span>Diabetes</span>AI
+        </div>
+
+    </a>
 
     <div class="nav-links">
 
-        <a href="/">
-            Home
-        </a>
+        <a href="/">Home</a>
 
-        <a href="/#prediction">
-            Predict
-        </a>
-
-        <a href="/about">
-            About
-        </a>
+        <a href="/#prediction">Predict</a>
 
         <a href="/performance">
             Performance
@@ -50,134 +43,141 @@
             History
         </a>
 
+        <a href="/about">
+            About
+        </a>
+
     </div>
 
 </nav>
 
 
-<section class="result-section">
-
+<section class="result-page">
 
     <div class="result-card">
 
+        <div class="result-icon">
 
-        <p class="small-title">
-            PREDICTION RESULT
-        </p>
+            {% if prediction == "Positive" %}
+                !
+            {% elif prediction == "Negative" %}
+                ✓
+            {% else %}
+                !
+            {% endif %}
+
+        </div>
+
+
+        <div class="result-label">
+            MACHINE LEARNING RESULT
+        </div>
 
 
         <h1>
-            Diabetes Risk Assessment
+            Prediction Complete
         </h1>
 
 
-        {% if status == "safe" %}
-
-
-        <div class="result-icon">
-            ✓
-        </div>
-
-
-        <h2 class="safe-result">
+        <div class="prediction-status
+            {% if prediction == 'Positive' %}
+                positive
+            {% elif prediction == 'Negative' %}
+                negative
+            {% endif %}">
 
             {{ prediction }}
 
-        </h2>
+        </div>
 
 
-        <p>
+        <p class="result-message">
 
-            The model predicts a lower risk based
-            on the provided parameters.
+            {{ result_message }}
 
         </p>
 
 
-        {% elif status == "risk" %}
+        <div class="result-info">
+
+            <div>
+
+                <span>
+                    Model Status
+                </span>
+
+                <strong>
+                    Completed
+                </strong>
+
+            </div>
 
 
-        <div class="result-icon">
-            !
-        </div>
+            <div>
+
+                <span>
+                    Prediction Type
+                </span>
+
+                <strong>
+                    Diabetes Risk
+                </strong>
+
+            </div>
 
 
-        <h2 class="risk-result">
+            <div>
 
-            {{ prediction }}
+                <span>
+                    Processing
+                </span>
 
-        </h2>
+                <strong>
+                    Machine Learning
+                </strong>
 
-
-        <p>
-
-            The model predicts a higher risk based
-            on the provided parameters.
-
-        </p>
-
-
-        {% else %}
-
-
-        <div class="result-icon">
-            !
-        </div>
-
-
-        <h2>
-            {{ prediction }}
-        </h2>
-
-
-        {% if error %}
-
-        <p class="error-message">
-
-            {{ error }}
-
-        </p>
-
-        {% endif %}
-
-
-        {% endif %}
-
-
-        <div class="disclaimer">
-
-            <strong>
-                Important:
-            </strong>
-
-            This application is an educational
-            machine-learning project. The prediction
-            should not be considered a medical diagnosis
-            or a replacement for professional medical
-            advice.
+            </div>
 
         </div>
 
 
-        <div class="result-buttons">
+        <div class="result-actions">
 
-            <a href="/"
-               class="back-button">
+            <a href="/#prediction"
+               class="primary-btn">
 
                 New Prediction
 
+                <span>
+                    →
+                </span>
+
             </a>
 
 
-            <a href="/history"
-               class="back-button secondary-button">
+            <a href="/"
+               class="secondary-btn">
 
-                View History
+                Home
 
             </a>
 
         </div>
 
+
+        <div class="result-warning">
+
+            <strong>
+                ⚠ Important:
+            </strong>
+
+            This prediction is generated for
+            educational purposes and should not be
+            considered a medical diagnosis. Consult
+            a qualified healthcare professional for
+            medical advice.
+
+        </div>
 
     </div>
 
@@ -186,12 +186,27 @@
 
 <footer>
 
+    <div class="footer-brand">
+
+        <div class="brand-icon">
+            +
+        </div>
+
+        <strong>
+            DiabetesAI
+        </strong>
+
+    </div>
+
     <p>
-        © 2026 Diabetes Prediction System
+        Machine Learning Mini Project
     </p>
 
-</footer>
+    <div class="copyright">
+        © 2026 Diabetes Prediction System
+    </div>
 
+</footer>
 
 </body>
 

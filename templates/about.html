@@ -8,38 +8,33 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>
-        About Project
-    </title>
+    <title>About | DiabetesAI</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 
-
 <body>
-
 
 <nav class="navbar">
 
-    <div class="logo">
-        Diabetes Prediction
-    </div>
+    <a href="/" class="brand">
 
+        <div class="brand-icon">+</div>
+
+        <div>
+            <span>Diabetes</span>AI
+        </div>
+
+    </a>
 
     <div class="nav-links">
 
-        <a href="/">
-            Home
-        </a>
+        <a href="/">Home</a>
 
         <a href="/#prediction">
             Predict
-        </a>
-
-        <a href="/about">
-            About
         </a>
 
         <a href="/performance">
@@ -50,224 +45,169 @@
             History
         </a>
 
+        <a href="/about" class="active">
+            About
+        </a>
+
     </div>
 
 </nav>
 
 
-<section class="hero about-hero">
+<section class="about-page">
 
-    <div class="hero-content">
+    <div class="about-container">
 
-        <p class="small-title">
+        <div class="section-label">
             ABOUT THE PROJECT
-        </p>
+        </div>
 
         <h1>
             Diabetes Prediction System
         </h1>
 
-        <p>
+        <p class="about-intro">
 
-            A machine-learning project demonstrating
-            the integration of predictive analytics
-            with a Flask web application.
-
-        </p>
-
-    </div>
-
-</section>
-
-
-<section class="about-section">
-
-
-    <div class="container">
-
-
-        <h2>
-            Project Overview
-        </h2>
-
-
-        <p>
-
-            The Diabetes Prediction System is a
-            machine-learning based web application
-            designed to estimate diabetes risk from
-            selected health parameters.
+            DiabetesAI is a machine-learning based
+            web application developed as a mini
+            project to demonstrate how healthcare
+            data can be processed and analyzed using
+            machine learning.
 
         </p>
 
 
-        <p>
+        <div class="about-grid">
 
-            The application accepts patient information,
-            applies the same preprocessing used during
-            model development, and generates a prediction
-            using the trained model.
-
-        </p>
-
-
-        <h2>
-            Objective
-        </h2>
-
-
-        <p>
-
-            The objective of this project is to demonstrate
-            how machine learning can be integrated into a
-            practical web application.
-
-        </p>
-
-
-        <h2>
-            Technologies Used
-        </h2>
-
-
-        <div class="features">
-
-
-            <div class="feature-card">
+            <div class="about-card">
 
                 <h3>
-                    Python
+                    Objective
                 </h3>
 
                 <p>
-                    Programming and ML development.
+
+                    The objective is to develop a system
+                    that uses selected health parameters
+                    to generate a diabetes risk
+                    classification.
+
                 </p>
 
             </div>
 
 
-            <div class="feature-card">
+            <div class="about-card">
 
                 <h3>
-                    Flask
+                    Machine Learning
                 </h3>
 
                 <p>
-                    Web application backend.
+
+                    The application uses a trained
+                    classification model along with
+                    preprocessing techniques such as
+                    imputation and feature scaling.
+
                 </p>
 
             </div>
 
 
-            <div class="feature-card">
+            <div class="about-card">
 
                 <h3>
-                    Scikit-learn
+                    Web Application
                 </h3>
 
                 <p>
-                    Machine learning and evaluation.
+
+                    Flask is used to connect the machine
+                    learning model with an interactive
+                    web interface.
+
                 </p>
 
             </div>
 
 
-            <div class="feature-card">
+            <div class="about-card">
 
                 <h3>
-                    Pandas
+                    Technologies
                 </h3>
 
                 <p>
-                    Dataset processing and analysis.
+
+                    Python, Flask, NumPy, Pandas,
+                    Scikit-learn, HTML and CSS are
+                    used in the project.
+
                 </p>
 
             </div>
-
-
-            <div class="feature-card">
-
-                <h3>
-                    NumPy
-                </h3>
-
-                <p>
-                    Numerical computation.
-                </p>
-
-            </div>
-
-
-            <div class="feature-card">
-
-                <h3>
-                    SQLite
-                </h3>
-
-                <p>
-                    Prediction history storage.
-                </p>
-
-            </div>
-
-
-            <div class="feature-card">
-
-                <h3>
-                    HTML & CSS
-                </h3>
-
-                <p>
-                    Frontend interface.
-                </p>
-
-            </div>
-
-
-            <div class="feature-card">
-
-                <h3>
-                    Joblib
-                </h3>
-
-                <p>
-                    Model serialization.
-                </p>
-
-            </div>
-
 
         </div>
 
 
-        <h2>
-            Input Parameters
-        </h2>
+        <div class="about-flow">
+
+            <h2>
+                Project Workflow
+            </h2>
+
+            <div class="about-pipeline">
+
+                <span>
+                    Dataset
+                </span>
+
+                →
+                
+                <span>
+                    Preprocessing
+                </span>
+
+                →
+
+                <span>
+                    ML Model
+                </span>
+
+                →
+
+                <span>
+                    Flask
+                </span>
+
+                →
+
+                <span>
+                    Prediction
+                </span>
+
+            </div>
+
+        </div>
 
 
-        <p>
-
-            The model accepts:
-
-            Pregnancies, Glucose, Blood Pressure,
-            Skin Thickness, Insulin, BMI,
-            Diabetes Pedigree Function and Age.
-
-        </p>
-
-
-        <div class="disclaimer">
+        <div class="about-warning">
 
             <strong>
-                Disclaimer:
+                Educational Project
             </strong>
 
-            This project is intended for educational
-            purposes. It does not provide a medical
-            diagnosis.
+            <p>
+
+                This system is intended for educational
+                and demonstration purposes. It should
+                not be used as a substitute for
+                professional medical diagnosis.
+
+            </p>
 
         </div>
-
 
     </div>
 
@@ -276,12 +216,27 @@
 
 <footer>
 
+    <div class="footer-brand">
+
+        <div class="brand-icon">
+            +
+        </div>
+
+        <strong>
+            DiabetesAI
+        </strong>
+
+    </div>
+
     <p>
-        © 2026 Diabetes Prediction System
+        Machine Learning Mini Project
     </p>
 
-</footer>
+    <div class="copyright">
+        © 2026 Diabetes Prediction System
+    </div>
 
+</footer>
 
 </body>
 

@@ -8,12 +8,504 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>
-        Model Performance
-    </title>
+    <title>Model Performance | DiabetesAI</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5faf8;
+            color: #193f36;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e2ece8;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            text-decoration: none;
+            color: #193f36;
+
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .brand span {
+            color: #159579;
+        }
+
+        .brand-icon {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #159579;
+            color: white;
+
+            border-radius: 9px;
+
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #647873;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover,
+        .nav-links .active {
+            color: #159579;
+        }
+
+
+        /* MAIN */
+
+        .dashboard {
+            min-height: calc(100vh - 140px);
+            padding: 70px 7%;
+        }
+
+        .dashboard-heading {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-label {
+            color: #159579;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-heading h1 {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-heading p {
+            color: #71817c;
+            font-size: 14px;
+        }
+
+
+        /* ERROR */
+
+        .performance-error {
+            max-width: 1100px;
+            margin: 0 auto 25px;
+
+            padding: 18px 22px;
+
+            background: #fff3f3;
+
+            border: 1px solid #efcccc;
+
+            border-left: 5px solid #c94d4d;
+
+            border-radius: 10px;
+
+            color: #704545;
+        }
+
+        .performance-error strong {
+            display: block;
+            color: #a33f3f;
+            margin-bottom: 7px;
+        }
+
+        .performance-error p {
+            word-break: break-word;
+            font-size: 13px;
+        }
+
+
+        /* METRICS */
+
+        .metrics-grid {
+            max-width: 1100px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+        }
+
+        .metric-card {
+            background: white;
+
+            padding: 25px;
+
+            border: 1px solid #e0ebe7;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 8px 25px rgba(
+                    20,
+                    70,
+                    55,
+                    0.05
+                );
+        }
+
+        .metric-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #e5f6f0;
+
+            color: #159579;
+
+            border-radius: 10px;
+
+            font-weight: bold;
+
+            margin-bottom: 17px;
+        }
+
+        .metric-card span {
+            display: block;
+
+            color: #71817c;
+
+            font-size: 13px;
+
+            margin-bottom: 5px;
+        }
+
+        .metric-card strong {
+            display: block;
+
+            color: #193f36;
+
+            font-size: 30px;
+
+            margin-bottom: 5px;
+        }
+
+        .metric-card small {
+            color: #9aa7a3;
+
+            font-size: 10px;
+        }
+
+
+        /* CARDS */
+
+        .dashboard-card {
+
+            max-width: 1100px;
+
+            margin: 25px auto;
+
+            padding: 30px;
+
+            background: white;
+
+            border: 1px solid #e0ebe7;
+
+            border-radius: 17px;
+
+            box-shadow:
+                0 8px 25px rgba(
+                    20,
+                    70,
+                    55,
+                    0.05
+                );
+        }
+
+        .dashboard-card h2 {
+            font-size: 21px;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* CONFUSION MATRIX */
+
+        .confusion-wrapper {
+            display: flex;
+
+            justify-content: center;
+
+            padding: 15px;
+        }
+
+        .matrix {
+
+            display: grid;
+
+            grid-template-columns:
+                120px 170px 170px;
+
+            grid-template-rows:
+                55px 125px 125px;
+
+            border: 1px solid #dce9e4;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+        .matrix > div {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            border-right: 1px solid #dce9e4;
+
+            border-bottom: 1px solid #dce9e4;
+        }
+
+        .matrix-label {
+
+            background: #f5faf8;
+
+            color: #6c7d77;
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+        .matrix-cell {
+
+            background: #eaf7f2;
+
+            color: #159579;
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+            flex-direction: column;
+        }
+
+        .matrix-cell small {
+
+            display: block;
+
+            color: #708780;
+
+            font-size: 9px;
+
+            font-weight: normal;
+
+            margin-top: 5px;
+        }
+
+
+        /* PIPELINE */
+
+        .pipeline {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+        .pipeline div {
+
+            padding: 15px 18px;
+
+            background: #f4faf7;
+
+            border-radius: 10px;
+
+            text-align: center;
+        }
+
+        .pipeline strong {
+
+            display: block;
+
+            color: #159579;
+
+            font-size: 12px;
+
+            margin-bottom: 5px;
+        }
+
+        .pipeline span {
+
+            color: #647873;
+
+            font-size: 10px;
+        }
+
+
+        /* NOTE */
+
+        .performance-note {
+
+            max-width: 1100px;
+
+            margin: 25px auto;
+
+            padding: 15px 20px;
+
+            background: #eaf7f2;
+
+            border-left: 4px solid #159579;
+
+            color: #637670;
+
+            font-size: 12px;
+
+            border-radius: 5px;
+        }
+
+        .performance-note strong {
+            color: #31594f;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+
+            background: white;
+
+            border-top: 1px solid #e2ece8;
+
+            padding: 25px 7%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            color: #788681;
+
+            font-size: 12px;
+        }
+
+        .footer-brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            color: #193f36;
+        }
+
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .metrics-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 4%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .dashboard {
+                padding: 50px 5%;
+            }
+
+            .dashboard-heading h1 {
+                font-size: 30px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .matrix {
+
+                grid-template-columns:
+                    80px 105px 105px;
+
+                grid-template-rows:
+                    50px 100px 100px;
+            }
+
+            .pipeline {
+                flex-direction: column;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+    </style>
 
 </head>
 
@@ -21,11 +513,23 @@
 <body>
 
 
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
 <nav class="navbar">
 
-    <div class="logo">
-        Diabetes Prediction
-    </div>
+    <a href="/" class="brand">
+
+        <div class="brand-icon">
+            +
+        </div>
+
+        <div>
+            <span>Diabetes</span>AI
+        </div>
+
+    </a>
 
 
     <div class="nav-links">
@@ -38,11 +542,8 @@
             Predict
         </a>
 
-        <a href="/about">
-            About
-        </a>
-
-        <a href="/performance">
+        <a href="/performance"
+           class="active">
             Performance
         </a>
 
@@ -50,269 +551,389 @@
             History
         </a>
 
+        <a href="/about">
+            About
+        </a>
+
     </div>
 
 </nav>
 
 
-<section class="about-section">
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<section class="dashboard">
 
 
-    <div class="container">
+    <div class="dashboard-heading">
 
+        <div class="section-label">
+            MACHINE LEARNING
+        </div>
 
-        <p class="small-title">
-            MACHINE LEARNING EVALUATION
-        </p>
-
-
-        <h1 class="page-title">
+        <h1>
             Model Performance
         </h1>
 
-
-        {% if error %}
-
-
-        <div class="error-box">
-
-            <h2>
-                Unable to calculate performance
-            </h2>
-
-            <p>
-                {{ error }}
-            </p>
-
-        </div>
-
-
-        {% else %}
-
-
-        <p class="performance-intro">
-
-            Performance of the trained classification
-            model on the test dataset.
-
+        <p>
+            Evaluation metrics for the
+            diabetes prediction model
         </p>
 
+    </div>
 
-        <!-- =================================================
-             METRICS
-        ================================================== -->
 
-        <div class="metrics-grid">
+    <!-- ERROR MESSAGE -->
 
+    {% if error %}
 
-            <div class="metric-card">
+    <div class="performance-error">
 
-                <h3>
-                    Accuracy
-                </h3>
+        <strong>
+            Performance Error
+        </strong>
 
-                <div class="metric-value">
-
-                    {{ accuracy }}%
-
-                </div>
-
-            </div>
-
-
-            <div class="metric-card">
-
-                <h3>
-                    Precision
-                </h3>
-
-                <div class="metric-value">
-
-                    {{ precision }}%
-
-                </div>
-
-            </div>
-
-
-            <div class="metric-card">
-
-                <h3>
-                    Recall
-                </h3>
-
-                <div class="metric-value">
-
-                    {{ recall }}%
-
-                </div>
-
-            </div>
-
-
-            <div class="metric-card">
-
-                <h3>
-                    F1 Score
-                </h3>
-
-                <div class="metric-value">
-
-                    {{ f1 }}%
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-
-        <!-- =================================================
-             MODEL INFO
-        ================================================== -->
-
-        <div class="performance-card">
-
-
-            <h2>
-                Model Information
-            </h2>
-
-
-            <p>
-
-                <strong>
-                    Model:
-                </strong>
-
-                {{ model_name }}
-
-            </p>
-
-
-            <p>
-
-                <strong>
-                    Task:
-                </strong>
-
-                Binary Classification
-
-            </p>
-
-
-            <p>
-
-                <strong>
-                    Test Size:
-                </strong>
-
-                20%
-
-            </p>
-
-
-            <p>
-
-                <strong>
-                    Evaluation Metrics:
-                </strong>
-
-                Accuracy, Precision, Recall and F1 Score
-
-            </p>
-
-
-        </div>
-
-
-        <!-- =================================================
-             CONFUSION MATRIX
-        ================================================== -->
-
-        <div class="performance-card">
-
-
-            <h2>
-                Confusion Matrix
-            </h2>
-
-
-            <div class="confusion-matrix">
-
-
-                <div class="matrix-cell">
-
-                    <span>
-                        True Negative
-                    </span>
-
-                    <strong>
-                        {{ tn }}
-                    </strong>
-
-                </div>
-
-
-                <div class="matrix-cell">
-
-                    <span>
-                        False Positive
-                    </span>
-
-                    <strong>
-                        {{ fp }}
-                    </strong>
-
-                </div>
-
-
-                <div class="matrix-cell">
-
-                    <span>
-                        False Negative
-                    </span>
-
-                    <strong>
-                        {{ fn }}
-                    </strong>
-
-                </div>
-
-
-                <div class="matrix-cell">
-
-                    <span>
-                        True Positive
-                    </span>
-
-                    <strong>
-                        {{ tp }}
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-
-        {% endif %}
-
+        <p>
+            {{ error }}
+        </p>
 
     </div>
+
+    {% endif %}
+
+
+    <!-- =================================================
+         METRIC CARDS
+    ================================================== -->
+
+    <div class="metrics-grid">
+
+
+        <div class="metric-card">
+
+            <div class="metric-icon">
+                %
+            </div>
+
+            <span>
+                Accuracy
+            </span>
+
+            <strong>
+                {{ accuracy }}%
+            </strong>
+
+            <small>
+                Overall correctness
+            </small>
+
+        </div>
+
+
+        <div class="metric-card">
+
+            <div class="metric-icon">
+                P
+            </div>
+
+            <span>
+                Precision
+            </span>
+
+            <strong>
+                {{ precision }}%
+            </strong>
+
+            <small>
+                Positive prediction accuracy
+            </small>
+
+        </div>
+
+
+        <div class="metric-card">
+
+            <div class="metric-icon">
+                R
+            </div>
+
+            <span>
+                Recall
+            </span>
+
+            <strong>
+                {{ recall }}%
+            </strong>
+
+            <small>
+                Positive cases identified
+            </small>
+
+        </div>
+
+
+        <div class="metric-card">
+
+            <div class="metric-icon">
+                F1
+            </div>
+
+            <span>
+                F1 Score
+            </span>
+
+            <strong>
+                {{ f1 }}%
+            </strong>
+
+            <small>
+                Balanced performance
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         CONFUSION MATRIX
+    ================================================== -->
+
+    <div class="dashboard-card">
+
+        <div class="section-label">
+            EVALUATION
+        </div>
+
+        <h2>
+            Confusion Matrix
+        </h2>
+
+
+        <div class="confusion-wrapper">
+
+            <div class="matrix">
+
+                <div></div>
+
+                <div class="matrix-label">
+                    Predicted 0
+                </div>
+
+                <div class="matrix-label">
+                    Predicted 1
+                </div>
+
+
+                <div class="matrix-label">
+                    Actual 0
+                </div>
+
+                <div class="matrix-cell">
+
+                    {{ tn }}
+
+                    <small>
+                        True Negative
+                    </small>
+
+                </div>
+
+                <div class="matrix-cell">
+
+                    {{ fp }}
+
+                    <small>
+                        False Positive
+                    </small>
+
+                </div>
+
+
+                <div class="matrix-label">
+                    Actual 1
+                </div>
+
+                <div class="matrix-cell">
+
+                    {{ fn }}
+
+                    <small>
+                        False Negative
+                    </small>
+
+                </div>
+
+                <div class="matrix-cell">
+
+                    {{ tp }}
+
+                    <small>
+                        True Positive
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         ML PIPELINE
+    ================================================== -->
+
+    <div class="dashboard-card">
+
+        <div class="section-label">
+            MACHINE LEARNING PIPELINE
+        </div>
+
+        <h2>
+            Project Workflow
+        </h2>
+
+
+        <div class="pipeline">
+
+            <div>
+
+                <strong>
+                    01
+                </strong>
+
+                <span>
+                    Dataset
+                </span>
+
+            </div>
+
+
+            <div>
+                →
+            </div>
+
+
+            <div>
+
+                <strong>
+                    02
+                </strong>
+
+                <span>
+                    Imputation
+                </span>
+
+            </div>
+
+
+            <div>
+                →
+            </div>
+
+
+            <div>
+
+                <strong>
+                    03
+                </strong>
+
+                <span>
+                    Scaling
+                </span>
+
+            </div>
+
+
+            <div>
+                →
+            </div>
+
+
+            <div>
+
+                <strong>
+                    04
+                </strong>
+
+                <span>
+                    ML Model
+                </span>
+
+            </div>
+
+
+            <div>
+                →
+            </div>
+
+
+            <div>
+
+                <strong>
+                    05
+                </strong>
+
+                <span>
+                    Prediction
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         NOTE
+    ================================================== -->
+
+    <div class="performance-note">
+
+        <strong>
+            Note:
+        </strong>
+
+        The metrics shown above are calculated
+        using the trained machine learning model
+        and the diabetes dataset.
+
+    </div>
+
 
 </section>
 
 
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
 <footer>
 
+    <div class="footer-brand">
+
+        <div class="brand-icon">
+            +
+        </div>
+
+        <strong>
+            DiabetesAI
+        </strong>
+
+    </div>
+
     <p>
-        © 2026 Diabetes Prediction System
+        Machine Learning Mini Project
     </p>
+
+    <div>
+        © 2026 Diabetes Prediction System
+    </div>
 
 </footer>
 

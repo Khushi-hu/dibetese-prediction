@@ -8,39 +8,845 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>
-        Diabetes Prediction System
-    </title>
+    <title>DiabetesAI | Risk Prediction</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 
-
 <body>
 
-
-<!-- =====================================================
-     NAVBAR
-===================================================== -->
+<!-- ================= NAVBAR ================= -->
 
 <nav class="navbar">
 
-    <div class="logo">
-        Diabetes Prediction
-    </div>
+    <a href="/" class="brand">
+
+        <div class="brand-icon">+</div>
+
+        <div>
+            <span>Diabetes</span>AI
+        </div>
+
+    </a>
 
 
     <div class="nav-links">
 
-        <a href="/">
-            Home
-        </a>
+        <a href="/" class="active">Home</a>
 
-        <a href="#prediction">
-            Predict
-        </a>
+        <a href="#prediction">Predict</a>
+
+        <a href="/performance">Performance</a>
+
+        <a href="/history">History</a>
+
+        <a href="/about">About</a>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="badge">
+
+            <span class="pulse"></span>
+
+            MACHINE LEARNING HEALTHCARE
+
+        </div>
+
+
+        <h1>
+
+            Understand Your
+
+            <span>Diabetes Risk</span>
+
+        </h1>
+
+
+        <p>
+
+            An intelligent machine-learning system that
+            analyzes selected health parameters and
+            provides an instant diabetes risk prediction.
+
+        </p>
+
+
+        <div class="hero-buttons">
+
+            <a href="#prediction"
+               class="primary-btn">
+
+                Start Prediction
+                <span>→</span>
+
+            </a>
+
+
+            <a href="/about"
+               class="secondary-btn">
+
+                Learn More
+
+            </a>
+
+        </div>
+
+
+        <div class="hero-note">
+
+            <span>✓</span>
+            Fast prediction
+
+            <span>✓</span>
+            Machine learning
+
+            <span>✓</span>
+            Educational project
+
+        </div>
+
+    </div>
+
+
+    <!-- HERO CARD -->
+
+    <div class="hero-card">
+
+        <div class="card-top">
+
+            <div>
+
+                <small>
+                    RISK ASSESSMENT
+                </small>
+
+                <h3>
+                    Diabetes Analysis
+                </h3>
+
+            </div>
+
+
+            <div class="health-icon">
+                ♥
+            </div>
+
+        </div>
+
+
+        <div class="progress-area">
+
+            <div class="progress-circle">
+
+                <div>
+
+                    <strong>
+                        ML
+                    </strong>
+
+                    <small>
+                        MODEL
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-info">
+
+                <div>
+
+                    <span>
+                        Input Parameters
+                    </span>
+
+                    <strong>
+                        08
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Prediction
+                    </span>
+
+                    <strong>
+                        Instant
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Classification
+                    </span>
+
+                    <strong>
+                        Binary
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card-footer">
+
+            <span class="status-dot"></span>
+
+            Model ready for prediction
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= STATS ================= -->
+
+<section class="stats-section">
+
+    <div class="stat">
+
+        <div class="stat-icon">
+            08
+        </div>
+
+        <div>
+
+            <strong>
+                Parameters
+            </strong>
+
+            <span>
+                Health inputs
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-icon">
+            ML
+        </div>
+
+        <div>
+
+            <strong>
+                Machine Learning
+            </strong>
+
+            <span>
+                Trained model
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-icon">
+            ⚡
+        </div>
+
+        <div>
+
+            <strong>
+                Instant
+            </strong>
+
+            <span>
+                Prediction result
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-icon">
+            DB
+        </div>
+
+        <div>
+
+            <strong>
+                SQLite
+            </strong>
+
+            <span>
+                History storage
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section class="how-section">
+
+    <div class="section-heading">
+
+        <div class="section-label">
+            HOW IT WORKS
+        </div>
+
+        <h2>
+            From Data to Prediction
+        </h2>
+
+        <p>
+
+            Three simple steps connect user input
+            with the machine-learning model.
+
+        </p>
+
+    </div>
+
+
+    <div class="steps">
+
+
+        <div class="step-card">
+
+            <div class="step-number">
+                01
+            </div>
+
+            <div class="step-icon">
+                ♙
+            </div>
+
+            <h3>
+                Enter Information
+            </h3>
+
+            <p>
+
+                Provide the required health parameters
+                through the prediction form.
+
+            </p>
+
+        </div>
+
+
+        <div class="step-line">
+            →
+        </div>
+
+
+        <div class="step-card">
+
+            <div class="step-number">
+                02
+            </div>
+
+            <div class="step-icon">
+                ⚙
+            </div>
+
+            <h3>
+                Model Analysis
+            </h3>
+
+            <p>
+
+                The input is processed and passed through
+                the trained machine-learning pipeline.
+
+            </p>
+
+        </div>
+
+
+        <div class="step-line">
+            →
+        </div>
+
+
+        <div class="step-card">
+
+            <div class="step-number">
+                03
+            </div>
+
+            <div class="step-icon">
+                ✓
+            </div>
+
+            <h3>
+                Get Result
+            </h3>
+
+            <p>
+
+                Receive an instant risk classification
+                based on the model prediction.
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- ================= PREDICTION ================= -->
+
+<section class="prediction-section"
+         id="prediction">
+
+
+    <div class="section-heading">
+
+        <div class="section-label">
+            RISK ASSESSMENT
+        </div>
+
+        <h2>
+            Check Diabetes Risk
+        </h2>
+
+        <p>
+
+            Enter the values below to generate
+            your machine-learning prediction.
+
+        </p>
+
+    </div>
+
+
+    <div class="prediction-container">
+
+
+        <div class="form-header">
+
+            <div class="form-title-icon">
+                +
+            </div>
+
+            <div>
+
+                <h3>
+                    Health Information
+                </h3>
+
+                <p>
+                    All fields are required
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form action="/predict"
+              method="POST"
+              class="prediction-form">
+
+
+            <!-- Pregnancies -->
+
+            <div class="input-group">
+
+                <label for="pregnancies">
+
+                    Pregnancies
+
+                    <span>
+                        Count
+                    </span>
+
+                </label>
+
+                <input
+                    type="number"
+                    id="pregnancies"
+                    name="pregnancies"
+                    min="0"
+                    required
+                    placeholder="e.g. 2">
+
+            </div>
+
+
+            <!-- Glucose -->
+
+            <div class="input-group">
+
+                <label for="glucose">
+
+                    Glucose
+
+                    <span>
+                        mg/dL
+                    </span>
+
+                </label>
+
+                <input
+                    type="number"
+                    id="glucose"
+                    name="glucose"
+                    min="0"
+                    required
+                    placeholder="e.g. 120">
+
+            </div>
+
+
+            <!-- Blood Pressure -->
+
+            <div class="input-group">
+
+                <label for="blood_pressure">
+
+                    Blood Pressure
+
+                    <span>
+                        mm Hg
+                    </span>
+
+                </label>
+
+                <input
+                    type="number"
+                    id="blood_pressure"
+                    name="blood_pressure"
+                    min="0"
+                    required
+                    placeholder="e.g. 70">
+
+            </div>
+
+
+            <!-- Skin Thickness -->
+
+            <div class="input-group">
+
+                <label for="skin_thickness">
+
+                    Skin Thickness
+
+                    <span>
+                        mm
+                    </span>
+
+                </label>
+
+                <input
+                    type="number"
+                    id="skin_thickness"
+                    name="skin_thickness"
+                    min="0"
+                    required
+                    placeholder="e.g. 20">
+
+            </div>
+
+
+            <!-- Insulin -->
+
+            <div class="input-group">
+
+                <label for="insulin">
+
+                    Insulin
+
+                    <span>
+                        μU/mL
+                    </span>
+
+                </label>
+
+                <input
+                    type="number"
+                    id="insulin"
+                    name="insulin"
+                    min="0"
+                    required
+                    placeholder="e.g. 80">
+
+            </div>
+
+
+            <!-- BMI -->
+
+            <div class="input-group">
+
+                <label for="bmi">
+
+                    BMI
+
+                    <span>
+                        kg/m²
+                    </span>
+
+                </label>
+
+                <input
+                    type="number"
+                    id="bmi"
+                    name="bmi"
+                    min="0"
+                    step="0.1"
+                    required
+                    placeholder="e.g. 25.5">
+
+            </div>
+
+
+            <!-- Pedigree -->
+
+            <div class="input-group">
+
+                <label for="diabetes_pedigree">
+
+                    Diabetes Pedigree
+
+                    <span>
+                        Function
+                    </span>
+
+                </label>
+
+                <input
+                    type="number"
+                    id="diabetes_pedigree"
+                    name="diabetes_pedigree"
+                    min="0"
+                    step="0.001"
+                    required
+                    placeholder="e.g. 0.5">
+
+            </div>
+
+
+            <!-- Age -->
+
+            <div class="input-group">
+
+                <label for="age">
+
+                    Age
+
+                    <span>
+                        Years
+                    </span>
+
+                </label>
+
+                <input
+                    type="number"
+                    id="age"
+                    name="age"
+                    min="1"
+                    required
+                    placeholder="e.g. 30">
+
+            </div>
+
+
+            <div class="form-submit">
+
+                <button type="submit">
+
+                    Analyze Diabetes Risk
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+        <div class="form-disclaimer">
+
+            <span>ⓘ</span>
+
+            This tool is for educational purposes only
+            and does not provide a medical diagnosis.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TECHNOLOGY ================= -->
+
+<section class="technology-section">
+
+    <div class="section-heading">
+
+        <div class="section-label">
+            TECHNOLOGY
+        </div>
+
+        <h2>
+            Built With Modern Tools
+        </h2>
+
+    </div>
+
+
+    <div class="technology-grid">
+
+        <div class="tech-card">
+
+            <strong>
+                Python
+            </strong>
+
+            <span>
+                Core Development
+            </span>
+
+        </div>
+
+
+        <div class="tech-card">
+
+            <strong>
+                Scikit-learn
+            </strong>
+
+            <span>
+                Machine Learning
+            </span>
+
+        </div>
+
+
+        <div class="tech-card">
+
+            <strong>
+                Flask
+            </strong>
+
+            <span>
+                Web Framework
+            </span>
+
+        </div>
+
+
+        <div class="tech-card">
+
+            <strong>
+                SQLite
+            </strong>
+
+            <span>
+                Database
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DISCLAIMER ================= -->
+
+<section class="disclaimer-section">
+
+    <div class="disclaimer-box">
+
+        <div class="warning-icon">
+            !
+        </div>
+
+        <div>
+
+            <h3>
+                Important Information
+            </h3>
+
+            <p>
+
+                This application is an educational
+                machine-learning project. Its predictions
+                should not be interpreted as medical
+                advice or diagnosis. Consult a qualified
+                healthcare professional for medical
+                concerns.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-brand">
+
+        <div class="brand-icon">
+            +
+        </div>
+
+        <strong>
+            DiabetesAI
+        </strong>
+
+    </div>
+
+
+    <p>
+        Machine Learning Mini Project
+    </p>
+
+
+    <div class="footer-links">
 
         <a href="/about">
             About
@@ -56,351 +862,12 @@
 
     </div>
 
-</nav>
 
+    <div class="copyright">
 
-<!-- =====================================================
-     HERO
-===================================================== -->
-
-<section class="hero">
-
-    <div class="hero-content">
-
-        <p class="small-title">
-            MACHINE LEARNING PROJECT
-        </p>
-
-        <h1>
-            Diabetes Prediction System
-        </h1>
-
-        <p>
-
-            A machine-learning based web application
-            that estimates diabetes risk from selected
-            health parameters.
-
-        </p>
-
-
-        <a href="#prediction"
-           class="hero-button">
-
-            Start Prediction
-
-        </a>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     PREDICTION FORM
-===================================================== -->
-
-<section class="prediction-section"
-         id="prediction">
-
-
-    <div class="container">
-
-
-        <h2>
-            Diabetes Risk Prediction
-        </h2>
-
-
-        <p class="section-description">
-
-            Enter the required health parameters
-            to generate a prediction.
-
-        </p>
-
-
-        <form action="/predict"
-              method="POST"
-              class="prediction-form">
-
-
-            <!-- Pregnancies -->
-
-            <div class="form-group">
-
-                <label for="pregnancies">
-                    Pregnancies
-                </label>
-
-                <input
-                    type="number"
-                    id="pregnancies"
-                    name="pregnancies"
-                    min="0"
-                    required
-                    placeholder="Example: 2">
-
-            </div>
-
-
-            <!-- Glucose -->
-
-            <div class="form-group">
-
-                <label for="glucose">
-                    Glucose
-                </label>
-
-                <input
-                    type="number"
-                    id="glucose"
-                    name="glucose"
-                    min="0"
-                    required
-                    placeholder="Example: 120">
-
-            </div>
-
-
-            <!-- Blood Pressure -->
-
-            <div class="form-group">
-
-                <label for="blood_pressure">
-                    Blood Pressure
-                </label>
-
-                <input
-                    type="number"
-                    id="blood_pressure"
-                    name="blood_pressure"
-                    min="0"
-                    required
-                    placeholder="Example: 70">
-
-            </div>
-
-
-            <!-- Skin Thickness -->
-
-            <div class="form-group">
-
-                <label for="skin_thickness">
-                    Skin Thickness
-                </label>
-
-                <input
-                    type="number"
-                    id="skin_thickness"
-                    name="skin_thickness"
-                    min="0"
-                    required
-                    placeholder="Example: 20">
-
-            </div>
-
-
-            <!-- Insulin -->
-
-            <div class="form-group">
-
-                <label for="insulin">
-                    Insulin
-                </label>
-
-                <input
-                    type="number"
-                    id="insulin"
-                    name="insulin"
-                    min="0"
-                    required
-                    placeholder="Example: 80">
-
-            </div>
-
-
-            <!-- BMI -->
-
-            <div class="form-group">
-
-                <label for="bmi">
-                    BMI
-                </label>
-
-                <input
-                    type="number"
-                    id="bmi"
-                    name="bmi"
-                    min="0"
-                    step="0.1"
-                    required
-                    placeholder="Example: 25.5">
-
-            </div>
-
-
-            <!-- Diabetes Pedigree -->
-
-            <div class="form-group">
-
-                <label for="diabetes_pedigree">
-                    Diabetes Pedigree Function
-                </label>
-
-                <input
-                    type="number"
-                    id="diabetes_pedigree"
-                    name="diabetes_pedigree"
-                    min="0"
-                    step="0.001"
-                    required
-                    placeholder="Example: 0.5">
-
-            </div>
-
-
-            <!-- Age -->
-
-            <div class="form-group">
-
-                <label for="age">
-                    Age
-                </label>
-
-                <input
-                    type="number"
-                    id="age"
-                    name="age"
-                    min="1"
-                    required
-                    placeholder="Example: 30">
-
-            </div>
-
-
-            <!-- Button -->
-
-            <div class="form-button">
-
-                <button type="submit">
-
-                    Predict Diabetes Risk
-
-                </button>
-
-            </div>
-
-
-        </form>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     FEATURES
-===================================================== -->
-
-<section class="about-section">
-
-    <div class="container">
-
-
-        <h2>
-            Project Features
-        </h2>
-
-
-        <div class="features">
-
-
-            <div class="feature-card">
-
-                <h3>
-                    Machine Learning
-                </h3>
-
-                <p>
-
-                    Uses a trained machine-learning
-                    classification model.
-
-                </p>
-
-            </div>
-
-
-            <div class="feature-card">
-
-                <h3>
-                    Fast Prediction
-                </h3>
-
-                <p>
-
-                    Generates a prediction instantly
-                    after entering the parameters.
-
-                </p>
-
-            </div>
-
-
-            <div class="feature-card">
-
-                <h3>
-                    Prediction History
-                </h3>
-
-                <p>
-
-                    Stores previous predictions using
-                    a SQLite database.
-
-                </p>
-
-            </div>
-
-
-            <div class="feature-card">
-
-                <h3>
-                    Model Evaluation
-                </h3>
-
-                <p>
-
-                    Displays accuracy, precision,
-                    recall and F1-score.
-
-                </p>
-
-            </div>
-
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer>
-
-    <p>
         © 2026 Diabetes Prediction System
-    </p>
 
-    <p>
-        Machine Learning Mini Project
-    </p>
+    </div>
 
 </footer>
 

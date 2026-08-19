@@ -1,10 +1,30 @@
+# ============================================================
+# DIABETES PREDICTION SYSTEM
+# Flask Web Application
+# ============================================================
+
+# IMPORTANT:
+# These environment variables MUST be set before
+# importing numpy, pandas, sklearn or joblib.
+
+import os
+
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+
+# ============================================================
+# IMPORTS
+# ============================================================
+
 from flask import Flask, render_template, request
+
 import joblib
 import numpy as np
 import pandas as pd
-import os
 
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import (
     accuracy_score,
     precision_score,
@@ -13,111 +33,114 @@ from sklearn.metrics import (
     confusion_matrix
 )
 
-from database import (
-    create_database,
-    save_prediction,
-    get_predictions
-)
 
-
-# =========================================================
+# ============================================================
 # FLASK APPLICATION
-# =========================================================
+# ============================================================
 
 app = Flask(__name__)
 
 
-# =========================================================
-# BASE DIRECTORY
-# =========================================================
+# ============================================================
+# PROJECT PATHS
+# ============================================================
 
 BASE_DIR = os.path.dirname(
     os.path.abspath(__file__)
 )
 
-
-# =========================================================
-# MODEL PATHS
-# =========================================================
-
-MODEL_PATH = os.path.join(
+MODEL_DIR = os.path.join(
     BASE_DIR,
-    "model",
-    "best_model.pkl"
+    "model"
 )
-
-SCALER_PATH = os.path.join(
-    BASE_DIR,
-    "model",
-    "scaler.pkl"
-)
-
-IMPUTER_PATH = os.path.join(
-    BASE_DIR,
-    "model",
-    "imputer.pkl"
-)
-
-
-# =========================================================
-# DATASET PATH
-# =========================================================
 
 DATASET_PATH = os.path.join(
     BASE_DIR,
+    "dataset",
     "diabetes.csv"
 )
 
 
-# =========================================================
+# ============================================================
+# MODEL FILES
+# ============================================================
+
+MODEL_PATH = os.path.join(
+    MODEL_DIR,
+    "best_model.pkl"
+)
+
+SCALER_PATH = os.path.join(
+    MODEL_DIR,
+    "scaler.pkl"
+)
+
+IMPUTER_PATH = os.path.join(
+    MODEL_DIR,
+    "imputer.pkl"
+)
+
+
+# ============================================================
 # LOAD TRAINED MODEL
-# =========================================================
+# ============================================================
 
-model = joblib.load(MODEL_PATH)
+model = None
+scaler = None
+imputer = None
 
-scaler = joblib.load(SCALER_PATH)
-
-imputer = joblib.load(IMPUTER_PATH)
-
-
-# =========================================================
-# CREATE DATABASE
-# =========================================================
-
-create_database()
+MODEL_LOADED = False
 
 
-# =========================================================
-# FIND DATASET
-# =========================================================
+try:
 
-def find_dataset():
+    print()
+    print("=" * 60)
+    print("Loading machine learning model...")
+    print("=" * 60)
 
-    # First check project folder
+    model = joblib.load(
+        MODEL_PATH
+    )
 
-    if os.path.exists(DATASET_PATH):
+    print("best_model.pkl loaded")
 
-        return DATASET_PATH
+    scaler = joblib.load(
+        SCALER_PATH
+    )
+
+    print("scaler.pkl loaded")
+
+    imputer = joblib.load(
+        IMPUTER_PATH
+    )
+
+    print("imputer.pkl loaded")
+
+    MODEL_LOADED = True
+
+    print()
+    print("MODEL STATUS: SUCCESS")
+    print("=" * 60)
 
 
-    # Search inside project folder
+except Exception as e:
 
-    for root, dirs, files in os.walk(BASE_DIR):
+    print()
+    print("=" * 60)
+    print("MODEL LOADING ERROR")
+    print("=" * 60)
 
-        if "diabetes.csv" in files:
+    print(e)
 
-            return os.path.join(
-                root,
-                "diabetes.csv"
-            )
+    print("=" * 60)
 
-
-    return None
+    MODEL_LOADED = False
 
 
-# =========================================================
+# ============================================================
 # HOME PAGE
-# =========================================================
+# ============================================================
 
 @app.route("/")
 def home():
@@ -127,21 +150,9 @@ def home():
     )
 
 
-# =========================================================
-# ABOUT PAGE
-# =========================================================
-
-@app.route("/about")
-def about():
-
-    return render_template(
-        "about.html"
-    )
-
-
-# =========================================================
-# PREDICTION
-# =========================================================
+# ============================================================
+# PREDICTION PAGE
+# ============================================================
 
 @app.route(
     "/predict",
@@ -151,48 +162,91 @@ def predict():
 
     try:
 
-        # -------------------------------------------------
-        # GET FORM VALUES
-        # -------------------------------------------------
+        # ----------------------------------------------------
+        # CHECK MODEL
+        # ----------------------------------------------------
+
+        if not MODEL_LOADED:
+
+            return render_template(
+                "result.html",
+
+                prediction="Error",
+
+                result_message=(
+                    "Machine learning model "
+                    "could not be loaded."
+                )
+            )
+
+
+        # ----------------------------------------------------
+        # GET USER INPUT
+        # ----------------------------------------------------
 
         pregnancies = float(
-            request.form["pregnancies"]
+            request.form.get(
+                "pregnancies",
+                0
+            )
         )
 
         glucose = float(
-            request.form["glucose"]
+            request.form.get(
+                "glucose",
+                0
+            )
         )
 
         blood_pressure = float(
-            request.form["blood_pressure"]
+            request.form.get(
+                "blood_pressure",
+                0
+            )
         )
 
         skin_thickness = float(
-            request.form["skin_thickness"]
+            request.form.get(
+                "skin_thickness",
+                0
+            )
         )
 
         insulin = float(
-            request.form["insulin"]
+            request.form.get(
+                "insulin",
+                0
+            )
         )
 
         bmi = float(
-            request.form["bmi"]
+            request.form.get(
+                "bmi",
+                0
+            )
         )
 
         diabetes_pedigree = float(
-            request.form["diabetes_pedigree"]
+            request.form.get(
+                "diabetes_pedigree",
+                0
+            )
         )
 
         age = float(
-            request.form["age"]
+            request.form.get(
+                "age",
+                0
+            )
         )
 
 
-        # -------------------------------------------------
+        # ----------------------------------------------------
         # CREATE INPUT ARRAY
-        # -------------------------------------------------
+        # ----------------------------------------------------
 
         input_data = np.array([
+
             [
                 pregnancies,
                 glucose,
@@ -203,83 +257,63 @@ def predict():
                 diabetes_pedigree,
                 age
             ]
+
         ])
 
 
-        # -------------------------------------------------
-        # IMPUTE
-        # -------------------------------------------------
+        # ----------------------------------------------------
+        # HANDLE MISSING VALUES
+        # ----------------------------------------------------
 
         input_data = imputer.transform(
             input_data
         )
 
 
-        # -------------------------------------------------
-        # SCALE
-        # -------------------------------------------------
+        # ----------------------------------------------------
+        # SCALE DATA
+        # ----------------------------------------------------
 
         input_data = scaler.transform(
             input_data
         )
 
 
-        # -------------------------------------------------
+        # ----------------------------------------------------
         # PREDICTION
-        # -------------------------------------------------
+        # ----------------------------------------------------
 
-        prediction_value = model.predict(
+        prediction = model.predict(
             input_data
         )[0]
 
 
-        # -------------------------------------------------
+        # ----------------------------------------------------
         # RESULT
-        # -------------------------------------------------
+        # ----------------------------------------------------
 
-        if prediction_value == 1:
+        if prediction == 1:
 
-            result = "Higher Risk of Diabetes"
+            result = "Positive"
 
-            status = "risk"
+            result_message = (
+                "The model predicts a higher "
+                "risk of diabetes."
+            )
 
         else:
 
-            result = "Lower Risk of Diabetes"
+            result = "Negative"
 
-            status = "safe"
-
-
-        # -------------------------------------------------
-        # SAVE PREDICTION
-        # -------------------------------------------------
-
-        save_prediction(
-
-            pregnancies,
-
-            glucose,
-
-            blood_pressure,
-
-            skin_thickness,
-
-            insulin,
-
-            bmi,
-
-            diabetes_pedigree,
-
-            age,
-
-            result
-
-        )
+            result_message = (
+                "The model predicts a lower "
+                "risk of diabetes."
+            )
 
 
-        # -------------------------------------------------
-        # DISPLAY RESULT
-        # -------------------------------------------------
+        # ----------------------------------------------------
+        # RETURN RESULT
+        # ----------------------------------------------------
 
         return render_template(
 
@@ -287,79 +321,66 @@ def predict():
 
             prediction=result,
 
-            status=status
+            result_message=result_message
 
         )
 
 
     except Exception as e:
 
+        print()
+        print("PREDICTION ERROR:")
+        print(e)
+
+
         return render_template(
 
             "result.html",
 
-            prediction="Unable to make prediction",
+            prediction="Error",
 
-            status="error",
-
-            error=str(e)
+            result_message=str(e)
 
         )
 
 
-# =========================================================
-# PREDICTION HISTORY
-# =========================================================
-
-@app.route("/history")
-def history():
-
-    predictions = get_predictions()
-
-    return render_template(
-
-        "history.html",
-
-        predictions=predictions
-
-    )
-
-
-# =========================================================
+# ============================================================
 # MODEL PERFORMANCE
-# =========================================================
+# ============================================================
 
 @app.route("/performance")
 def performance():
 
     try:
 
-        # -------------------------------------------------
-        # FIND DATASET
-        # -------------------------------------------------
+        print()
+        print("=" * 60)
+        print("CALCULATING MODEL PERFORMANCE")
+        print("=" * 60)
 
-        dataset_path = find_dataset()
 
+        # ----------------------------------------------------
+        # CHECK MODEL
+        # ----------------------------------------------------
 
-        if dataset_path is None:
+        if not MODEL_LOADED:
 
             return render_template(
 
-                "model_performance.html",
+                "performance.html",
 
                 error=(
-                    "diabetes.csv was not found. "
-                    "Please place the dataset inside "
-                    "the project folder."
+                    "Machine learning model "
+                    "is not loaded."
                 ),
 
-                accuracy=None,
+                accuracy=0,
 
-                precision=None,
+                precision=0,
 
-                recall=None,
+                recall=0,
 
-                f1=None,
+                f1=0,
 
                 tn=0,
 
@@ -367,44 +388,197 @@ def performance():
 
                 fn=0,
 
-                tp=0,
-
-                model_name=type(model).__name__
+                tp=0
 
             )
 
 
-        # -------------------------------------------------
+        # ----------------------------------------------------
+        # CHECK DATASET
+        # ----------------------------------------------------
+
+        print("Dataset path:")
+
+        print(DATASET_PATH)
+
+
+        if not os.path.exists(
+            DATASET_PATH
+        ):
+
+            error_message = (
+
+                "Dataset not found.\n\n"
+
+                "Expected location:\n"
+
+                + DATASET_PATH
+
+            )
+
+            print(error_message)
+
+
+            return render_template(
+
+                "performance.html",
+
+                error=error_message,
+
+                accuracy=0,
+
+                precision=0,
+
+                recall=0,
+
+                f1=0,
+
+                tn=0,
+
+                fp=0,
+
+                fn=0,
+
+                tp=0
+
+            )
+
+
+        # ----------------------------------------------------
         # LOAD DATASET
-        # -------------------------------------------------
+        # ----------------------------------------------------
+
+        print("Reading dataset...")
 
         df = pd.read_csv(
-            dataset_path
+            DATASET_PATH
         )
 
 
-        # -------------------------------------------------
+        print(
+            "Dataset loaded successfully."
+        )
+
+        print(
+            "Dataset shape:",
+            df.shape
+        )
+
+        print(
+            "Dataset columns:"
+        )
+
+        print(
+            df.columns.tolist()
+        )
+
+
+        # ----------------------------------------------------
+        # EXPECTED FEATURES
+        # ----------------------------------------------------
+
+        feature_columns = [
+
+            "Pregnancies",
+
+            "Glucose",
+
+            "BloodPressure",
+
+            "SkinThickness",
+
+            "Insulin",
+
+            "BMI",
+
+            "DiabetesPedigreeFunction",
+
+            "Age"
+
+        ]
+
+
+        # ----------------------------------------------------
+        # CHECK FEATURES
+        # ----------------------------------------------------
+
+        missing_columns = [
+
+            column
+
+            for column in feature_columns
+
+            if column not in df.columns
+
+        ]
+
+
+        if missing_columns:
+
+            error_message = (
+
+                "The following columns are missing "
+                "from diabetes.csv:\n"
+
+                + str(missing_columns)
+
+            )
+
+
+            print(error_message)
+
+
+            return render_template(
+
+                "performance.html",
+
+                error=error_message,
+
+                accuracy=0,
+
+                precision=0,
+
+                recall=0,
+
+                f1=0,
+
+                tn=0,
+
+                fp=0,
+
+                fn=0,
+
+                tp=0
+
+            )
+
+
+        # ----------------------------------------------------
         # CHECK TARGET
-        # -------------------------------------------------
+        # ----------------------------------------------------
 
         if "Outcome" not in df.columns:
 
+            error_message = (
+
+                "The 'Outcome' column "
+                "was not found in diabetes.csv."
+            )
+
+
             return render_template(
 
-                "model_performance.html",
+                "performance.html",
 
-                error=(
-                    "The dataset does not contain "
-                    "an 'Outcome' column."
-                ),
+                error=error_message,
 
-                accuracy=None,
+                accuracy=0,
 
-                precision=None,
+                precision=0,
 
-                recall=None,
+                recall=0,
 
-                f1=None,
+                f1=0,
 
                 tn=0,
 
@@ -412,142 +586,232 @@ def performance():
 
                 fn=0,
 
-                tp=0,
-
-                model_name=type(model).__name__
+                tp=0
 
             )
 
 
-        # -------------------------------------------------
+        # ----------------------------------------------------
         # FEATURES
-        # -------------------------------------------------
+        # ----------------------------------------------------
 
-        X = df.drop(
-            "Outcome",
-            axis=1
+        X = df[
+            feature_columns
+        ]
+
+
+        # ----------------------------------------------------
+        # TARGET
+        # ----------------------------------------------------
+
+        y = df[
+            "Outcome"
+        ]
+
+
+        # ----------------------------------------------------
+        # HANDLE MISSING VALUES
+        # ----------------------------------------------------
+
+        print(
+            "Applying imputer..."
+        )
+
+        X_imputed = imputer.transform(
+            X
         )
 
 
-        # -------------------------------------------------
-        # TARGET
-        # -------------------------------------------------
+        # ----------------------------------------------------
+        # SCALE FEATURES
+        # ----------------------------------------------------
 
-        y = df["Outcome"]
+        print(
+            "Scaling features..."
+        )
+
+        X_scaled = scaler.transform(
+            X_imputed
+        )
 
 
-        # -------------------------------------------------
-        # TRAIN TEST SPLIT
-        # -------------------------------------------------
+        # ----------------------------------------------------
+        # MODEL PREDICTION
+        # ----------------------------------------------------
 
-        X_train, X_test, y_train, y_test = train_test_split(
+        print(
+            "Generating predictions..."
+        )
 
-            X,
+        y_pred = model.predict(
+            X_scaled
+        )
+
+
+        # ----------------------------------------------------
+        # ACCURACY
+        # ----------------------------------------------------
+
+        accuracy = accuracy_score(
 
             y,
 
-            test_size=0.2,
-
-            random_state=42,
-
-            stratify=y
-
-        )
-
-
-        # -------------------------------------------------
-        # IMPUTER
-        # -------------------------------------------------
-
-        X_test = imputer.transform(
-            X_test
-        )
-
-
-        # -------------------------------------------------
-        # SCALER
-        # -------------------------------------------------
-
-        X_test = scaler.transform(
-            X_test
-        )
-
-
-        # -------------------------------------------------
-        # PREDICTION
-        # -------------------------------------------------
-
-        y_pred = model.predict(
-            X_test
-        )
-
-
-        # -------------------------------------------------
-        # METRICS
-        # -------------------------------------------------
-
-        accuracy = accuracy_score(
-            y_test,
             y_pred
+
         )
+
+
+        # ----------------------------------------------------
+        # PRECISION
+        # ----------------------------------------------------
 
         precision = precision_score(
-            y_test,
+
+            y,
+
             y_pred,
+
             zero_division=0
+
         )
+
+
+        # ----------------------------------------------------
+        # RECALL
+        # ----------------------------------------------------
 
         recall = recall_score(
-            y_test,
+
+            y,
+
             y_pred,
+
             zero_division=0
+
         )
+
+
+        # ----------------------------------------------------
+        # F1 SCORE
+        # ----------------------------------------------------
 
         f1 = f1_score(
-            y_test,
+
+            y,
+
             y_pred,
+
             zero_division=0
+
         )
 
 
-        # -------------------------------------------------
+        # ----------------------------------------------------
         # CONFUSION MATRIX
-        # -------------------------------------------------
+        # ----------------------------------------------------
 
         cm = confusion_matrix(
-            y_test,
+
+            y,
+
             y_pred
+
         )
 
 
-        if cm.shape == (2, 2):
+        tn = int(
+            cm[0][0]
+        )
 
-            tn, fp, fn, tp = cm.ravel()
+        fp = int(
+            cm[0][1]
+        )
 
-        else:
+        fn = int(
+            cm[1][0]
+        )
 
-            tn = 0
-            fp = 0
-            fn = 0
-            tp = 0
-
-
-        # -------------------------------------------------
-        # MODEL NAME
-        # -------------------------------------------------
-
-        model_name = type(
-            model
-        ).__name__
+        tp = int(
+            cm[1][1]
+        )
 
 
-        # -------------------------------------------------
-        # DISPLAY PERFORMANCE
-        # -------------------------------------------------
+        # ----------------------------------------------------
+        # PRINT RESULTS
+        # ----------------------------------------------------
+
+        print()
+        print("MODEL PERFORMANCE")
+        print("-" * 40)
+
+        print(
+            "Accuracy:",
+            round(
+                accuracy * 100,
+                2
+            ),
+            "%"
+        )
+
+        print(
+            "Precision:",
+            round(
+                precision * 100,
+                2
+            ),
+            "%"
+        )
+
+        print(
+            "Recall:",
+            round(
+                recall * 100,
+                2
+            ),
+            "%"
+        )
+
+        print(
+            "F1 Score:",
+            round(
+                f1 * 100,
+                2
+            ),
+            "%"
+        )
+
+        print("-" * 40)
+
+        print(
+            "True Negative:",
+            tn
+        )
+
+        print(
+            "False Positive:",
+            fp
+        )
+
+        print(
+            "False Negative:",
+            fn
+        )
+
+        print(
+            "True Positive:",
+            tp
+        )
+
+        print("=" * 60)
+
+
+        # ----------------------------------------------------
+        # SEND DATA TO HTML
+        # ----------------------------------------------------
 
         return render_template(
 
-            "model_performance.html",
+            "performance.html",
 
             error=None,
 
@@ -577,28 +841,38 @@ def performance():
 
             fn=fn,
 
-            tp=tp,
-
-            model_name=model_name
+            tp=tp
 
         )
 
 
     except Exception as e:
 
+        print()
+        print("=" * 60)
+        print("PERFORMANCE ERROR")
+        print("=" * 60)
+
+        print(
+            str(e)
+        )
+
+        print("=" * 60)
+
+
         return render_template(
 
-            "model_performance.html",
+            "performance.html",
 
             error=str(e),
 
-            accuracy=None,
+            accuracy=0,
 
-            precision=None,
+            precision=0,
 
-            recall=None,
+            recall=0,
 
-            f1=None,
+            f1=0,
 
             tn=0,
 
@@ -606,19 +880,66 @@ def performance():
 
             fn=0,
 
-            tp=0,
-
-            model_name=type(model).__name__
+            tp=0
 
         )
 
 
-# =========================================================
+# ============================================================
+# ABOUT PAGE
+# ============================================================
+
+@app.route("/about")
+def about():
+
+    return render_template(
+        "about.html"
+    )
+
+
+# ============================================================
+# HISTORY PAGE
+# ============================================================
+
+@app.route("/history")
+def history():
+
+    return render_template(
+        "history.html"
+    )
+
+
+# ============================================================
 # RUN APPLICATION
-# =========================================================
+# ============================================================
 
 if __name__ == "__main__":
 
+    print()
+    print("=" * 60)
+    print("       DIABETES PREDICTION SYSTEM")
+    print("=" * 60)
+
+    print()
+    print("Project directory:")
+    print(BASE_DIR)
+
+    print()
+    print("Dataset:")
+    print(DATASET_PATH)
+
+    print()
+    print("Model directory:")
+    print(MODEL_DIR)
+
+    print()
+    print("Model loaded:")
+    print(MODEL_LOADED)
+
+    print()
+    print("=" * 60)
+
     app.run(
-        debug=True
+        debug=True,
+        threaded=False
     )

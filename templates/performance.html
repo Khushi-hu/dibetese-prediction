@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Model Performance | DiabetesAI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <a href="/" class="brand">
+
+        <div class="brand-icon">
+            +
+        </div>
+
+        <div>
+            <span>Diabetes</span>AI
+        </div>
+
+    </a>
+
+    <div class="nav-links">
+
+        <a href="/">Home</a>
+
+        <a href="/#prediction">Predict</a>
+
+        <a href="/performance"
+           class="active">
+            Performance
+        </a>
+
+        <a href="/history">History</a>
+
+        <a href="/about">About</a>
+
+    </div>
+
+</nav>
+
+
+<!-- MAIN -->
+
+<section class="dashboard">
+
+    <div class="dashboard-heading">
+
+        <div class="section-label">
+            MACHINE LEARNING
+        </div>
+
+        <h1>
+            Model Performance
+        </h1>
+
+        <p>
+            Evaluation metrics of the diabetes
+            prediction model.
+        </p>
+
+    </div>
+
+
+    <!-- ERROR -->
+
+    {% if error %}
+
+    <div class="performance-error">
+
+        <strong>
+            Performance Error
+        </strong>
+
+        <p>
+            {{ error }}
+        </p>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- METRICS -->
+
+    <div class="metrics-grid">
+
+        <div class="metric-card">
+
+            <div class="metric-icon">
+                %
+            </div>
+
+            <span>
+                Accuracy
+            </span>
+
+            <strong>
+                {{ accuracy }}%
+            </strong>
+
+            <small>
+                Overall correctness
+            </small>
+
+        </div>
+
+
+        <div class="metric-card">
+
+            <div class="metric-icon">
+                P
+            </div>
+
+            <span>
+                Precision
+            </span>
+
+            <strong>
+                {{ precision }}%
+            </strong>
+
+            <small>
+                Positive prediction accuracy
+            </small>
+
+        </div>
+
+
+        <div class="metric-card">
+
+            <div class="metric-icon">
+                R
+            </div>
+
+            <span>
+                Recall
+            </span>
+
+            <strong>
+                {{ recall }}%
+            </strong>
+
+            <small>
+                Positive cases identified
+            </small>
+
+        </div>
+
+
+        <div class="metric-card">
+
+            <div class="metric-icon">
+                F1
+            </div>
+
+            <span>
+                F1 Score
+            </span>
+
+            <strong>
+                {{ f1 }}%
+            </strong>
+
+            <small>
+                Balanced performance
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <!-- CONFUSION MATRIX -->
+
+    <div class="dashboard-card">
+
+        <div class="section-label">
+            EVALUATION
+        </div>
+
+        <h2>
+            Confusion Matrix
+        </h2>
+
+        <div class="confusion-wrapper">
+
+            <div class="matrix">
+
+                <div></div>
+
+                <div class="matrix-label">
+                    Predicted 0
+                </div>
+
+                <div class="matrix-label">
+                    Predicted 1
+                </div>
+
+
+                <div class="matrix-label">
+                    Actual 0
+                </div>
+
+                <div class="matrix-cell">
+
+                    {{ tn }}
+
+                    <small>
+                        True Negative
+                    </small>
+
+                </div>
+
+                <div class="matrix-cell">
+
+                    {{ fp }}
+
+                    <small>
+                        False Positive
+                    </small>
+
+                </div>
+
+
+                <div class="matrix-label">
+                    Actual 1
+                </div>
+
+                <div class="matrix-cell">
+
+                    {{ fn }}
+
+                    <small>
+                        False Negative
+                    </small>
+
+                </div>
+
+                <div class="matrix-cell">
+
+                    {{ tp }}
+
+                    <small>
+                        True Positive
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- WORKFLOW -->
+
+    <div class="dashboard-card">
+
+        <div class="section-label">
+            MACHINE LEARNING PIPELINE
+        </div>
+
+        <h2>
+            Project Workflow
+        </h2>
+
+        <div class="pipeline">
+
+            <div>
+
+                <strong>01</strong>
+
+                <span>
+                    Dataset
+                </span>
+
+            </div>
+
+            <div>→</div>
+
+            <div>
+
+                <strong>02</strong>
+
+                <span>
+                    Imputation
+                </span>
+
+            </div>
+
+            <div>→</div>
+
+            <div>
+
+                <strong>03</strong>
+
+                <span>
+                    Scaling
+                </span>
+
+            </div>
+
+            <div>→</div>
+
+            <div>
+
+                <strong>04</strong>
+
+                <span>
+                    ML Model
+                </span>
+
+            </div>
+
+            <div>→</div>
+
+            <div>
+
+                <strong>05</strong>
+
+                <span>
+                    Prediction
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="performance-note">
+
+        <strong>Note:</strong>
+
+        This dashboard displays evaluation
+        metrics generated by the trained
+        machine learning model.
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="footer-brand">
+
+        <div class="brand-icon">
+            +
+        </div>
+
+        <strong>
+            DiabetesAI
+        </strong>
+
+    </div>
+
+    <p>
+        Machine Learning Mini Project
+    </p>
+
+    <div class="copyright">
+        © 2026 Diabetes Prediction System
+    </div>
+
+</footer>
+
+</body>
+
+</html>
