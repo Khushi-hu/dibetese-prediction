@@ -10,18 +10,432 @@
 
     <title>Prediction Result | DiabetesAI</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5faf8;
+            color: #193f36;
+            min-height: 100vh;
+        }
+
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e2ece8;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+        }
+
+        .brand {
+            text-decoration: none;
+            color: #193f36;
+
+            font-size: 20px;
+            font-weight: bold;
+
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-icon {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #159579;
+            color: white;
+
+            border-radius: 9px;
+
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .brand span {
+            color: #159579;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #647873;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: #159579;
+        }
+
+
+        /* MAIN */
+
+        .container {
+            min-height: calc(100vh - 140px);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 55px 20px;
+        }
+
+
+        /* RESULT CARD */
+
+        .result-card {
+            width: 100%;
+            max-width: 650px;
+
+            background: white;
+
+            padding: 48px 45px;
+
+            border-radius: 22px;
+
+            border: 1px solid #dfece7;
+
+            box-shadow:
+                0 15px 45px rgba(
+                    25,
+                    75,
+                    60,
+                    0.08
+                );
+
+            text-align: center;
+        }
+
+
+        /* ICON */
+
+        .icon {
+            width: 82px;
+            height: 82px;
+
+            margin: 0 auto 25px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 38px;
+            font-weight: bold;
+        }
+
+        .positive .icon {
+            background: #fff0f0;
+            color: #c94d4d;
+        }
+
+        .negative .icon {
+            background: #e8f7f1;
+            color: #159579;
+        }
+
+        .error .icon {
+            background: #fff4e5;
+            color: #c47a21;
+        }
+
+
+        /* TEXT */
+
+        .label {
+            color: #159579;
+
+            font-size: 11px;
+            font-weight: bold;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 34px;
+            margin-bottom: 15px;
+            color: #193f36;
+        }
+
+        .message {
+            color: #6d7d77;
+
+            font-size: 15px;
+
+            line-height: 1.7;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* RESULT BOX */
+
+        .result-box {
+            padding: 20px;
+
+            border-radius: 12px;
+
+            margin-bottom: 25px;
+        }
+
+        .positive .result-box {
+            background: #fff3f3;
+            color: #a63f3f;
+        }
+
+        .negative .result-box {
+            background: #eaf7f2;
+            color: #19765f;
+        }
+
+        .error .result-box {
+            background: #fff7eb;
+            color: #9b641f;
+        }
+
+        .result-box strong {
+            font-size: 20px;
+        }
+
+
+        /* PROBABILITY */
+
+        .probability-box {
+            margin: 25px 0;
+
+            padding: 24px;
+
+            background: #f7fbf9;
+
+            border: 1px solid #dfece7;
+
+            border-radius: 13px;
+
+            text-align: left;
+        }
+
+        .probability-title {
+            color: #71817c;
+
+            font-size: 10px;
+
+            font-weight: bold;
+
+            letter-spacing: 1.5px;
+
+            margin-bottom: 8px;
+        }
+
+        .probability-value {
+            color: #159579;
+
+            font-size: 32px;
+
+            font-weight: bold;
+
+            margin-bottom: 14px;
+        }
+
+        .probability-bar {
+            width: 100%;
+
+            height: 10px;
+
+            background: #dfe9e5;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            margin-bottom: 12px;
+        }
+
+        .probability-fill {
+            height: 100%;
+
+            background: #159579;
+
+            border-radius: 20px;
+
+            transition: width 0.6s ease;
+        }
+
+        .probability-description {
+            color: #7b8985;
+
+            font-size: 10px;
+
+            line-height: 1.6;
+        }
+
+
+        /* BUTTONS */
+
+        .buttons {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 13px 22px;
+
+            border-radius: 9px;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+        .primary {
+            background: #159579;
+            color: white;
+        }
+
+        .primary:hover {
+            background: #107c65;
+        }
+
+        .secondary {
+            background: #eef5f2;
+            color: #31594f;
+        }
+
+        .secondary:hover {
+            background: #e0eee9;
+        }
+
+
+        /* DISCLAIMER */
+
+        .disclaimer {
+            margin-top: 30px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #e5eeeb;
+
+            color: #8a9692;
+
+            font-size: 11px;
+
+            line-height: 1.7;
+        }
+
+        .disclaimer strong {
+            color: #687873;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+            min-height: 70px;
+
+            background: white;
+
+            border-top: 1px solid #e2ece8;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #87938f;
+
+            font-size: 11px;
+
+            padding: 15px;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .container {
+                padding: 35px 15px;
+            }
+
+            .result-card {
+                padding: 35px 22px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .probability-value {
+                font-size: 28px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+    </style>
 
 </head>
 
+
 <body>
+
+
+<!-- NAVIGATION -->
 
 <nav class="navbar">
 
     <a href="/" class="brand">
 
-        <div class="brand-icon">+</div>
+        <div class="brand-icon">
+            +
+        </div>
 
         <div>
             <span>Diabetes</span>AI
@@ -29,18 +443,15 @@
 
     </a>
 
+
     <div class="nav-links">
 
-        <a href="/">Home</a>
-
-        <a href="/#prediction">Predict</a>
+        <a href="/">
+            Home
+        </a>
 
         <a href="/performance">
             Performance
-        </a>
-
-        <a href="/history">
-            History
         </a>
 
         <a href="/about">
@@ -52,161 +463,256 @@
 </nav>
 
 
-<section class="result-page">
+<!-- MAIN -->
 
-    <div class="result-card">
+<div class="container">
 
-        <div class="result-icon">
 
-            {% if prediction == "Positive" %}
-                !
-            {% elif prediction == "Negative" %}
-                ✓
-            {% else %}
-                !
-            {% endif %}
+    <!-- POSITIVE -->
 
+    {% if prediction == "Positive" %}
+
+    <div class="result-card positive">
+
+        <div class="icon">
+            !
         </div>
 
-
-        <div class="result-label">
-            MACHINE LEARNING RESULT
+        <div class="label">
+            PREDICTION RESULT
         </div>
-
 
         <h1>
-            Prediction Complete
+            Higher Risk Detected
         </h1>
 
+        <div class="result-box">
 
-        <div class="prediction-status
-            {% if prediction == 'Positive' %}
-                positive
-            {% elif prediction == 'Negative' %}
-                negative
-            {% endif %}">
-
-            {{ prediction }}
+            <strong>
+                Diabetes Prediction: Positive
+            </strong>
 
         </div>
 
-
-        <p class="result-message">
-
+        <p class="message">
             {{ result_message }}
-
         </p>
 
 
-        <div class="result-info">
+        {% if probability is not none %}
 
-            <div>
+        <div class="probability-box">
 
-                <span>
-                    Model Status
-                </span>
+            <div class="probability-title">
+                MODEL ESTIMATED PROBABILITY
+            </div>
 
-                <strong>
-                    Completed
-                </strong>
+            <div class="probability-value">
+                {{ "%.2f"|format(probability) }}%
+            </div>
+
+            <div class="probability-bar">
+
+                <div
+                    class="probability-fill"
+                    style="width: {{ probability }}%;">
+                </div>
 
             </div>
 
+            <p class="probability-description">
 
-            <div>
+                This is the model's estimated probability
+                for the positive class. It is provided for
+                educational purposes and is not a medical
+                diagnosis.
 
-                <span>
-                    Prediction Type
-                </span>
-
-                <strong>
-                    Diabetes Risk
-                </strong>
-
-            </div>
-
-
-            <div>
-
-                <span>
-                    Processing
-                </span>
-
-                <strong>
-                    Machine Learning
-                </strong>
-
-            </div>
+            </p>
 
         </div>
 
+        {% endif %}
 
-        <div class="result-actions">
 
-            <a href="/#prediction"
-               class="primary-btn">
+        <div class="buttons">
 
+            <a href="/" class="btn primary">
                 New Prediction
-
-                <span>
-                    →
-                </span>
-
             </a>
 
-
-            <a href="/"
-               class="secondary-btn">
-
-                Home
-
+            <a href="/performance"
+               class="btn secondary">
+                Model Performance
             </a>
 
         </div>
 
 
-        <div class="result-warning">
+        <div class="disclaimer">
 
             <strong>
-                ⚠ Important:
+                Educational Use Only:
             </strong>
 
-            This prediction is generated for
-            educational purposes and should not be
-            considered a medical diagnosis. Consult
-            a qualified healthcare professional for
-            medical advice.
+            This machine learning prediction should
+            not be used as a medical diagnosis.
+            Please consult a qualified healthcare
+            professional for medical advice.
 
         </div>
 
     </div>
 
-</section>
 
+    <!-- NEGATIVE -->
+
+    {% elif prediction == "Negative" %}
+
+    <div class="result-card negative">
+
+        <div class="icon">
+            ✓
+        </div>
+
+        <div class="label">
+            PREDICTION RESULT
+        </div>
+
+        <h1>
+            Lower Risk Detected
+        </h1>
+
+        <div class="result-box">
+
+            <strong>
+                Diabetes Prediction: Negative
+            </strong>
+
+        </div>
+
+        <p class="message">
+            {{ result_message }}
+        </p>
+
+
+        {% if probability is not none %}
+
+        <div class="probability-box">
+
+            <div class="probability-title">
+                MODEL ESTIMATED PROBABILITY
+            </div>
+
+            <div class="probability-value">
+                {{ "%.2f"|format(probability) }}%
+            </div>
+
+            <div class="probability-bar">
+
+                <div
+                    class="probability-fill"
+                    style="width: {{ probability }}%;">
+                </div>
+
+            </div>
+
+            <p class="probability-description">
+
+                This is the model's estimated probability
+                for the positive class. It is provided for
+                educational purposes and is not a medical
+                diagnosis.
+
+            </p>
+
+        </div>
+
+        {% endif %}
+
+
+        <div class="buttons">
+
+            <a href="/" class="btn primary">
+                New Prediction
+            </a>
+
+            <a href="/performance"
+               class="btn secondary">
+                Model Performance
+            </a>
+
+        </div>
+
+
+        <div class="disclaimer">
+
+            <strong>
+                Educational Use Only:
+            </strong>
+
+            This machine learning prediction should
+            not be used as a medical diagnosis.
+            Please consult a qualified healthcare
+            professional for medical advice.
+
+        </div>
+
+    </div>
+
+
+    <!-- ERROR -->
+
+    {% else %}
+
+    <div class="result-card error">
+
+        <div class="icon">
+            !
+        </div>
+
+        <div class="label">
+            SYSTEM MESSAGE
+        </div>
+
+        <h1>
+            Something Went Wrong
+        </h1>
+
+        <div class="result-box">
+
+            <strong>
+                {{ prediction }}
+            </strong>
+
+        </div>
+
+        <p class="message">
+            {{ result_message }}
+        </p>
+
+        <div class="buttons">
+
+            <a href="/" class="btn primary">
+                Back to Home
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+<!-- FOOTER -->
 
 <footer>
 
-    <div class="footer-brand">
-
-        <div class="brand-icon">
-            +
-        </div>
-
-        <strong>
-            DiabetesAI
-        </strong>
-
-    </div>
-
-    <p>
-        Machine Learning Mini Project
-    </p>
-
-    <div class="copyright">
-        © 2026 Diabetes Prediction System
-    </div>
+    DiabetesAI · Machine Learning Mini Project · 2026
 
 </footer>
+
 
 </body>
 

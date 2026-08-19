@@ -1,44 +1,5 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Virtual Environment
 venv/
-env/
-.venv/
-
-# Environment variables
+__pycache__/
+*.pyc
 .env
-.env.*
-
-# IDE
 .vscode/
-.idea/
-
-# Jupyter Notebook
-.ipynb_checkpoints/
-
-# Logs
-*.log
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Python cache
-.pytest_cache/
-.mypy_cache/
-
-# Flask
-instance/
-
-# Temporary files
-*.tmp
-*.temp
-
-# Model temporary files
-*.bak
-
-# Excel temporary files
-~$*.xlsx
